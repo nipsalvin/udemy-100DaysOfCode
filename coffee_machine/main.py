@@ -24,13 +24,13 @@ MENU = {
     }
 }
 
-profit = 0
 resources = {
     "water": 300,
     "milk": 200,
     "coffee": 100,
 }
 
+profit = 0 
 # TODO 4: Check resources sufficient?
 def resources_sufficient(order_ingredients):
     """Checks whether there are enough resources for the ordered drink"""
