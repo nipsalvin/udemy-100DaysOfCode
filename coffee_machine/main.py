@@ -56,7 +56,7 @@ def make_coffee(drink_ordered, ingredients):
     """Deducts ingredients used from resources"""
     for ingredient in ingredients:
         resources[ingredient] -= ingredients[ingredient]
-    print(f"Here is your {drink_ordered}")
+    print(f"Here is your {drink_ordered}. Enjoy!")
 
 # TODO 6: Check transaction successful?
 def is_transaction_successful(money_received, drink_cost):
