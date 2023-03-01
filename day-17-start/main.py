@@ -11,9 +11,9 @@ class User:
         self.following += 1
 
     
-user_1 = User("Alvin",28)
+user_1 = User("xxx",28)
 # print(user_1.followers)
-user_2 = User("Nips", 29)
+user_2 = User("yyy", 29)
 user_1.follow(user_2)
 
 print(f'{user_1.name} has {user_1.followers} followers')
