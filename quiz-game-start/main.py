@@ -11,5 +11,6 @@ for i in question_data:
 quiz = QuizBrain(question_bank)
 quiz.next_question()
 # print (quiz)
-while quiz.still_has_questions() == True:
+# while quiz.still_has_questions() == True:
+while quiz.still_has_questions():
     quiz.next_question()

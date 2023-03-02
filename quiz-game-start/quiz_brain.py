@@ -9,8 +9,10 @@ class QuizBrain:
         input (f'Q{self.q_num}: {current_question.text} (True / False): \n')
     
     def still_has_questions(self):
-        if self.q_num > 12:
-            return False
-        else:
-            return True
+        # if self.q_num < len(self.q_list):
+        #     return True
+        # else:
+        #     return False
+        # Shorter method is
+        return self < len(self.q_list)
 
