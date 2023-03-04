@@ -1,4 +1,4 @@
-#!/home/nips/Projects/udemy-100DaysOfCode/venv/bin/python3
+#!/home/nips/Projects/udemy-100DaysOfCode/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
