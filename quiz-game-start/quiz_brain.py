@@ -14,5 +14,5 @@ class QuizBrain:
         # else:
         #     return False
         # Shorter method is
-        return self < len(self.q_list)
+        return self.q_num < len(self.q_list)
 
