@@ -3,7 +3,8 @@ import random
 
 kamtu = Turtle()
 kamtu.shape("turtle")
-kamtu.color("blue")
+
+#TODO Challenge 3 - Draw Shapes ########
 
 # def triangle():
 #     kamtu.color("black")
