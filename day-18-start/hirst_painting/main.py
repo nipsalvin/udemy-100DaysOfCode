@@ -13,25 +13,27 @@ import random
 #     rgb_colors.append(new_color)
 
 # print(rgb_colors)
-color_list = [(199, 175, 117), 
-              (124, 36, 24), (210, 221, 213), (168, 106, 57), (222, 224, 227)]
 
-kamtu = t.Turtle()
-t.colormode(255)
-y_cor = 20
-for i in range(10):
-    kamtu.penup()
-    kamtu.goto(0,y_cor)
-    y_cor += 50
-    for i in range (10):
-        color = random.choice(color_list)
-        kamtu.dot(20, color)
-        kamtu.forward(50)
+### My solution ###
+# color_list = [(199, 175, 117), 
+#               (124, 36, 24), (210, 221, 213), (168, 106, 57), (222, 224, 227)]
+
+# kamtu = t.Turtle()
+# t.colormode(255)
+# y_cor = 20
+# for i in range(10):
+#     kamtu.penup()
+#     kamtu.goto(0,y_cor)
+#     y_cor += 50
+#     for i in range (10):
+#         color = random.choice(color_list)
+#         kamtu.dot(20, color)
+#         kamtu.forward(50)
     
-# print(kamtu)
+# # print(kamtu)
 
-screen = Screen()
-screen.exitonclick()
+# screen = Screen()
+# screen.exitonclick()
 
 ####### Udemy solution #######
 import turtle as turtle_module
@@ -47,7 +49,7 @@ color_list = [(202, 164, 109), (238, 240, 245), (150, 75, 49), (223, 201, 135),
               (198, 91, 71), (46, 122, 86), (72, 43, 35), (145, 178, 148),
               (13, 99, 71), (233, 175, 164), (161, 142, 158), (105, 74, 77),
               (55, 46, 50), (183, 205, 171), (36, 60, 74), (18, 86, 90),
-              (81, 148, 129), (148, 17, 20), (14, 70, 64), (30, 68, 100),
+              (81, 148, 129), (148, 17, 20), (14, 70, 64),
               (107, 127, 153), (174, 94, 97), (176, 192, 209)]
 tim.setheading(225)
 tim.forward(300)
