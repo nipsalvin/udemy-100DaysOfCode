@@ -29,10 +29,10 @@ def clear():
     kamtu.pendown()
 
 screen.listen()
-screen.onkey(key="w", fun=move_forwards)
-screen.onkey(key="s", fun=move_bacwards)
+screen.onkey(key="w", fun=move_forwards) #you can either use this format
+screen.onkey(key="s", fun=move_bacwards) #you can either use this format
 screen.onkey(key="d", fun=turn_right) #you can either use this format
 screen.onkey(turn_left, "a") #or this format
-screen.onkey(reset, "r")
-screen.onkey(clear, "c")
+screen.onkey(reset, "r") #or this format
+screen.onkey(clear, "c") #or this format
 screen.exitonclick()
