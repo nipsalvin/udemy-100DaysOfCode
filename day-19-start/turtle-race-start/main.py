@@ -31,9 +31,9 @@ while racing == True:
             racing = False
             winner = turtle.pencolor()
             if user_choice == winner:
-                print(f'You won! The winning turtle color is the {winner} turtle')
+                print(f"You've won! The winning turtle color is the {winner} turtle")
             else:
-                print(f'You lost! The winning turtle color is the {winner} turtle')
+                print(f"You've lost! The winning turtle color is the {winner} turtle")
         
 
 
