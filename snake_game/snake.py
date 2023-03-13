@@ -19,9 +19,10 @@ class Snake:
         for position in STARTING_POSITIONS:
             new_position = Turtle('square')
             new_position.penup()
-            new_position.color('red')
+            new_position.color('grey')
             new_position.goto(position)
             self.segments.append(new_position)
+            self.segments[0].color('red')
 
     def move_snake(self):
             for seg in range(len(self.segments)-1, 0, -1):
