@@ -3,6 +3,7 @@ import random
 import time
 from snake import Snake
 from food import Food
+from scoreboard import Scoreboard
 
 screen = Screen()
 screen.setup(600, 600)
@@ -12,9 +13,11 @@ screen.tracer(0)
 
 starting_positions = [(0,0), (-20, 0), (-40, 0)]
 segments = []
+score = 0
 
 snake = Snake()
 food = Food()
+score = Scoreboard()
 
 screen.listen()
 screen.onkey(snake.up, "Up")
@@ -30,6 +33,8 @@ while game_is_on:
     snake.move_snake()
     if snake.head.distance(food) < 15:
         food.refresh()
+        score.count()
+
     
 
        
