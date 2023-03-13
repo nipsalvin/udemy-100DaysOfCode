@@ -2,6 +2,7 @@ from turtle import Turtle, Screen
 import random
 import time
 from snake import Snake
+from food import Food
 
 screen = Screen()
 screen.setup(600, 600)
@@ -13,6 +14,7 @@ starting_positions = [(0,0), (-20, 0), (-40, 0)]
 segments = []
 
 snake = Snake()
+food = Food()
 
 screen.listen()
 screen.onkey(snake.up, "Up")
@@ -26,6 +28,8 @@ while game_is_on:
     screen.update()
     time.sleep(0.1)
     snake.move_snake()
+    if snake.head.distance(food) < 15:
+        food.refresh()
     
 
        
