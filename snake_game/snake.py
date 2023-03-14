@@ -1,7 +1,7 @@
 from turtle import Turtle
 import time
 
-STARTING_POSITIONS = [(0,0), (-20, 0), (-40, 0)]
+STARTING_POSITIONS = [(0,0)]
 MOVE_DISTANCE = 20
 UP = 90
 DOWN = 270
@@ -32,6 +32,10 @@ class Snake:
 
     def extend(self):
         self.add_segment(self.segments[-1].position())
+    
+    def reset(self):
+        self.segments.clear()
+        self.create_snake()
 
     # TODO 2: Move snake
     def move_snake(self):
@@ -61,6 +65,9 @@ class Snake:
         """If the direction is LEFT the RIGHT won't work"""
         if self.head.heading() != LEFT:
             self.head.setheading(RIGHT)
+    
+    def clear(self):
+        self.segments.clear()
          
 
         
