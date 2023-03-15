@@ -29,3 +29,6 @@ class Scoreboard(Turtle):
         """Prints GAME OVER once it is called"""
         self.goto(0,0)
         self.write("GAME OVER", align="center", font= FONT )
+    
+
+            
