@@ -1,5 +1,6 @@
 from turtle import Turtle
 
+# TODO 2: Create paddle
 class Paddle(Turtle):
     def __init__(self, x, y):
         """Takes X and Y co-ordinates e.g {name = Paddle(180, 0)}"""
