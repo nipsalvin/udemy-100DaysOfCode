@@ -34,3 +34,4 @@ You can also read the README.md file in each folder to learn more about the code
 Conclusion:
 
 The 100 Days of Code in Python course is a great way to learn Python programming by building real-world projects. This repository contains the code exercises and projects that I have completed as part of the course, and I hope that it will be a useful resource for others who are learning Python.
+
