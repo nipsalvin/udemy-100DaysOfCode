@@ -27,7 +27,7 @@ To run the code in this repository, you will need to have Python 3 installed on 
 You may also need to install additional libraries or modules depending on the project you are running. These requirements will be listed in the README.md file for each project.
 How to Use this Repository
 
-To use this repository, simply clone or download the repository to your local machine. Each day's code is contained in its own folder, and can be run by navigating to the folder and running the code using the Python interpreter.
+To use this repository, simply clone or download the repository to your local machine. Each day's code is contained in its own folder, and can be run by navigating to the folder and running the code using the Python interpreter and runing :
 `python main.py1`
 You can also read the README.md file in each folder to learn more about the code and any requirements or instructions for running the code.
 
