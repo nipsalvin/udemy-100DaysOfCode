@@ -30,7 +30,7 @@ screen.onkey(l_paddle.go_down, 's')
 
 game_is_on = True
 while game_is_on:
-    time.sleep(0.03)
+    time.sleep(ball.move_speed)
     screen.update()
     ball.move()
 
@@ -41,13 +41,16 @@ while game_is_on:
     # TODO 5.1: Detect collision with paddle
     if ball.distance(r_paddle) < 50 and ball.xcor() > 320 or ball.distance(l_paddle) < 50 and ball.xcor() < -320:
         ball.bounce_x()
+        print(ball.move_speed)
     
     # TODO 6: Detect if ball is out of bounds
     if ball.xcor() > 380 :
         ball.reset_position()
+        score.l_point()
     
     if ball.xcor() < -380:
         ball.reset_position()
+        score.r_point()
     
 
 
