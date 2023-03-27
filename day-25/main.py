@@ -24,5 +24,34 @@ with open("weather_data.csv") as data_file:
 import pandas
 
 data = pandas.read_csv("weather_data.csv")
-print(data)
-print(data['temp'])
+# print(data)
+# print(data['temp'])
+
+"""Converting to dictionary"""
+data_dict = data.to_dict()
+print(data_dict['day'][0])
+
+"""Converting data to list"""
+temp_list = data['temp'].to_list()
+print(sum(temp_list))
+
+"""Finding average"""
+average_temp = data['temp'].mean()
+print(average_temp)
+
+"""Finding max value"""
+max_temp = data['temp'].max()
+print(max_temp)
+
+"""Method 2 of getting a row"""
+cond = data.condition
+print(f'The rows are\n {cond}')
+temp = data.temp
+print(f'The temps are\n{temp}')
+
+"""Getting data from a row"""
+data_row = data[data.day == 'Monday']
+print(data_row)
+
+max_temp_row = data[data.temp == data.temp.max()]
+print(f'Max Temp row is \n{max_temp_row}')
