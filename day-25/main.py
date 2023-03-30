@@ -93,3 +93,9 @@ data_dict = {
 
 data_frame = pandas.DataFrame(data_dict)
 data_frame.to_csv('squirrel_count.csv')
+data_2 = pandas.DataFrame(data_dict_2)
+# print(data_dict_2)
+"""Creating new csv file"""
+data_2.to_csv("new_data.csv")
+data_3 = pandas.read_csv("new_data.csv")
+# print(data_3)
