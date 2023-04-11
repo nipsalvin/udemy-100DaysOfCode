@@ -2,10 +2,6 @@ heroes==1.0.2
 pkg_resources==0.0.0
 prettytable==3.6.0
 wcwidth==0.2.6
-<<<<<<< HEAD
-=======
-
->>>>>>> day-25
 colorgram.py==1.2.0
 heroes==1.0.2
 numpy==1.24.2
