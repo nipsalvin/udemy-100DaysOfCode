@@ -1,32 +1,33 @@
-import tkinter
+from tkinter import *
 
-window = tkinter.Tk()
-window.title('My First GUI Program')
+def miles_to_km():
+    miles = float(miles_input.get())
+    km = miles * 1.60934
+    result.config(text=f'{km}')
+
+window = Tk()
+window.title('Miles to Km Converter')
 window.minsize(width=500, height=300)
+window.config(padx=20, pady=20)
 
-        # Label
-my_label = tkinter.Label(text="This is a Label", font=("Times New Roman", 24, 'bold'))
-my_label.pack()
-# pack() function Places object on the screen and centers it
+is_equal = Label(text="is equal to")
+is_equal.grid(row=1, column=0)
 
-my_label['text'] = 'This is a dictionary label'
-my_label.config(text='This is a config label')
+miles_input = Entry(width=10)
+miles_input.grid(row=0, column=1)
 
-        # Button
-def button_clicked():
-    my_label['text'] = 'I got clicked'
-    my_label.config(text='I got clicked')
-    new_text =input.get()
-    my_label.config(text = new_text)
+result = Label(text=0)
+result.grid(row=1, column=1)
 
-button = tkinter.Button(text='Click Me', command=button_clicked)
-button.pack()
+submit = Button(text='Calculate', command=miles_to_km)
+submit.grid(row=2, column=1)
 
-        # Entry(input)
-input = tkinter.Entry(width=10)
-input.pack()
+miles = Label(text="Miles")
+miles.grid(row=0, column=3)
 
+km = Label(text="Km")
+km.grid(row=1, column=3)
 
 
 window.mainloop()
-"""window.mainloop() keeps the window open using a loop"""
+
