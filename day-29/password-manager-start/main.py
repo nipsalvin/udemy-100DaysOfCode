@@ -1,5 +1,28 @@
 from tkinter import *
+from tkinter import messagebox
+from random import *
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
+
+letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
+
+nr_letters = random.randint(8, 10)
+nr_symbols = random.randint(2, 4)
+nr_numbers = random.randint(2, 4)
+
+password_list = []
+
+for char in range(nr_letters):
+  password_list.append(random.choice(letters))
+
+for char in range(nr_symbols):
+  password_list += random.choice(symbols)
+
+for char in range(nr_numbers):
+  password_list += random.choice(numbers)
+
+random.shuffle(password_list)
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
@@ -13,13 +36,20 @@ def save():
     password_data = password_entry.get()
     ### --- --- ###
 
-    with open("data.txt", mode='a') as data_file:
-        data_file.write(f'{website_data} | {email_data} | {password_data} \n')
+    is_okay = messagebox.askokcancel(title=website, 
+                                     message=f'Website: {website_data}\n Email: {email_data} \n Password: {password_data}')
 
-    ### --- Deleting the data --- ###
-    website_entry.delete(0, END)
-    password_entry.delete(0, END)
-    ### --- --- ###
+    if is_okay:
+        if len(website_entry.get()) < 1 or len(password_entry.get()) < 1:
+            messagebox.showerror(title='Blank Spaces', message='You cannot have blank spaces')
+        else:
+            with open("data.txt", mode='a') as data_file:
+                data_file.write(f'{website_data} | {email_data} | {password_data} \n')
+
+            ### --- Deleting the data --- ###
+            website_entry.delete(0, END)
+            password_entry.delete(0, END)
+            ### --- --- ###
 
 
 # ---------------------------- UI SETUP ------------------------------- #
