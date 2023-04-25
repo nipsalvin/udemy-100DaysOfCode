@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import messagebox
-import random
+from random import randint, choice, shuffle
+import pyperclip
+
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 def generate_password():
@@ -8,23 +10,40 @@ def generate_password():
     numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
     symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
 
-    nr_letters = random.randint(8, 10)
-    nr_symbols = random.randint(2, 4)
-    nr_numbers = random.randint(2, 4)
-
     password_list = []
+    #### Using a loop
+    # nr_letters = randint(8, 10)
+    # nr_symbols = randint(2, 4)
+    # nr_numbers = randint(2, 4)
+    # for char in range(nr_letters):
+    #     password_list.append(choice(letters))
 
-    for char in range(nr_letters):
-        password_list.append(random.choice(letters))
+    # for char in range(nr_symbols):
+    #     password_list += choice(symbols)
 
-    for char in range(nr_symbols):
-        password_list += random.choice(symbols)
+    # for char in range(nr_numbers):
+    #     password_list += choice(numbers)
 
-    for char in range(nr_numbers):
-        password_list += random.choice(numbers)
+    #### Using List comprehension
+    password_letters = [choice(letters) for _ in range(randint(8, 10))]
+    password_symbols = [choice(symbols) for _ in range(randint(8, 10))]
+    password_numbers = [choice(numbers) for _ in range(randint(8, 10))]
 
-    pass_gen = random.shuffle(password_list)
-    password_entry.insert(0, f'{pass_gen}')
+    password_list = password_letters + password_symbols + password_numbers
+    shuffle(password_list)
+
+    ###Creating an empty string then adding values
+    # password = ""
+    # for char in password_list:
+    #     password += char
+    #     password_entry.insert(0, f'{password}')
+    
+    ###Joining the values from password_list
+    password = ''.join(password_list)
+    password_entry.insert(0, f'{password}')
+    pyperclip.copy(password)
+    print(f"Your password is: {password}")
+
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
