@@ -16,3 +16,16 @@ else:
 finally:
     file.close()
     print('file was closed')
+
+
+### Raisiing a ValueError ###
+height = float(input('Enter Height in meters: '))
+weight = float(input('Enter weight in Kgs: '))
+
+if height > 4:
+    raise ValueError(f'{height} Meters is too much. Height cannot be over 4 Meters')
+
+bmi = weight/ height **2
+print (bmi)
+
+
