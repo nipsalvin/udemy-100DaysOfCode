@@ -67,14 +67,25 @@ def save():
     if len(website_entry.get()) < 1 or len(password_entry.get()) < 1:
         messagebox.showerror(title='Blank Spaces', message='You cannot have blank spaces')
     else:
-        with open('data.json', 'w') as datafile:
-            json.dump(new_data, datafile, indent=4)
-
-
-        ### --- Deleting the data --- ###
-        website_entry.delete(0, END)
-        password_entry.delete(0, END)
-        ### --- --- ###
+        try:
+            with open('data.json', 'r') as data_file:
+                ##JSON Reading old data##
+                data = json.load(data_file)
+                ##JSON Updating old data with new data##
+                data.update(new_data)
+        except FileNotFoundError:
+            with open('data.json', 'w') as data_file:
+                ##JSON Writing new data##
+                json.dump(new_data, data_file, indent=4)
+        else:
+            with open('data.json', 'w') as data_file:
+                ##JSON Writing new data##
+                json.dump(data, data_file, indent=4)
+        finally:
+            ### --- Deleting the data --- ###
+            website_entry.delete(0, END)
+            password_entry.delete(0, END)
+            ### --- --- ###
 
 
 # ---------------------------- UI SETUP ------------------------------- #
