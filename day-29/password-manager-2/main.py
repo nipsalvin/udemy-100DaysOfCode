@@ -90,54 +90,61 @@ def save():
 
 # ---------------------------- SEARCH BUTTON ------------------------------- #
 def find_password():
-    with open('data.json', 'r') as data_file:
-        data = json.load(data_file)
-        website = website_entry.get().title()
-        email = email_entry.get()
-        password = password_entry.get()
-        value = data[website]
-        # print(value)
-        if value:
+    website = website_entry.get()
+    try:
+        with open('data.json', 'r') as data_file:
+            data = json.load(data_file)
+    except FileNotFoundError:
+        messagebox.showinfo(title='Error', message='No Data File Found')
+    else:
+        if website in data:
+            email = data[website]['email']
+            password = data[website]['password']
             messagebox.showinfo(title=website, message=f'Email: {email}\n Password: {password}')
+            print(password)
+        else:
+            messagebox.showinfo(title='Error', message=f'There is no info on {website}')
+    # except KeyError:
+    #     messagebox.showinfo(title='No Website Found', message='No Website Found')
 
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
 window.title('Password Manager')
-window.config(padx=20, pady=20)
+window.config(padx=50, pady=50)
 
 canvas = Canvas(width=200, height=200)
 lock_img = PhotoImage(file ='logo.png')
 canvas.create_image(100, 100, image = lock_img)
 canvas.grid(row=0, column=1)
 
-website = Label(text='Website:')
-website.grid(row=1, column=0)
+website_label = Label(text='Website:')
+website_label.grid(row=1, column=0)
 
-password = Label(text='Password')
-password.grid(row=3, column=0)
+password_label = Label(text='Password')
+password_label.grid(row=3, column=0)
 
-email = Label(text='Email/UserName')
-email.grid(row=2, column=0)
+email_label = Label(text='Email/UserName')
+email_label.grid(row=2, column=0)
 
-website_entry = Entry(width=16)
+website_entry = Entry(width=21)
 website_entry.grid(row=1, column=1)
 website_entry.focus() #Starts the GUI with the cursor here by default 
 
 search_entry = Button(text='Search', width=15, command=find_password)
 search_entry.grid(row=1,column=2)
 
-email_entry = Entry(width=35)
+email_entry = Entry(width=40)
 email_entry.grid(row=2, column=1, columnspan=2)
 email_entry.insert(0, 'amwaniki.am@gmail.com')
 
-password_entry = Entry(width=16)
+password_entry = Entry(width=21)
 password_entry.grid(row=3, column=1)
 
-generate = Button(text='Generate Password', command=generate_password)
-generate.grid(row=3,column=2)
+generate_button = Button(text='Generate Password', command=generate_password)
+generate_button.grid(row=3,column=2)
 
-add_pass = Button(text='Add Password', width=30, command=save)
+add_pass = Button(text='Add Password', width=36, command=save)
 add_pass.grid(row=4, column=1, columnspan=2)
 
 window.mainloop()
