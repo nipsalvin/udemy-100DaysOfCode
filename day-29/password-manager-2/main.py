@@ -88,6 +88,19 @@ def save():
             ### --- --- ###
 
 
+# ---------------------------- SEARCH BUTTON ------------------------------- #
+def find_password():
+    with open('data.json', 'r') as data_file:
+        data = json.load(data_file)
+        website = website_entry.get().title()
+        email = email_entry.get()
+        password = password_entry.get()
+        value = data[website]
+        # print(value)
+        if value:
+            messagebox.showinfo(title=website, message=f'Email: {email}\n Password: {password}')
+
+
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
 window.title('Password Manager')
@@ -107,15 +120,18 @@ password.grid(row=3, column=0)
 email = Label(text='Email/UserName')
 email.grid(row=2, column=0)
 
-website_entry = Entry(width=35)
-website_entry.grid(row=1, column=1, columnspan=2)
+website_entry = Entry(width=16)
+website_entry.grid(row=1, column=1)
 website_entry.focus() #Starts the GUI with the cursor here by default 
+
+search_entry = Button(text='Search', width=15, command=find_password)
+search_entry.grid(row=1,column=2)
 
 email_entry = Entry(width=35)
 email_entry.grid(row=2, column=1, columnspan=2)
 email_entry.insert(0, 'amwaniki.am@gmail.com')
 
-password_entry = Entry(width=17)
+password_entry = Entry(width=16)
 password_entry.grid(row=3, column=1)
 
 generate = Button(text='Generate Password', command=generate_password)
