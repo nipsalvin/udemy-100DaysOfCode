@@ -1,45 +1,17 @@
-# import smtplib
-
-# my_email = 'nipsalvin@gmail.com'
-# password = ''
-
-# with smtplib.SMTP('smtp.gmail.com') as connection:
-#     connection.starttls()
-#     connection.login(user=my_email, password=password)
-#     connection.sendmail(from_addr=my_email, 
-#                         to_addrs='amwaniki.am@gmail.com', 
-#                         msg='Subject:TEST\n\nThis is a test Email.')
-#     connection.close()
-
-
-# import datetime
-
-# now_with_time = datetime.datetime.now()
-# now_with_date = now_with_time.date()
-# birthday = datetime.datetime(year=1995, day=20, month=1)
-
-# print(birthday.date())
-import datetime
-import smtplib
+import pandas
+import datetime as dt
 import random
 
-day = datetime.datetime.now()
-# print(day.weekday())
-if day.weekday() == 2:
-    with open(file='day-32\quotes.txt', mode='r') as quote_file:
-        all_quotes = quote_file.readlines()
-        message = random.choice(all_quotes)
-        print(message)
+##################### Extra Hard Starting Project ######################
+
+# 1. Update the birthdays.csv
+
+# 2. Check if today matches a birthday in the birthdays.csv
+
+# 3. If step 2 is true, pick a random letter from letter templates and replace the [NAME] with the person's actual name from birthdays.csv
+
+# 4. Send the letter generated in step 3 to that person's email address.
 
 
-    email = 'nipsalvin@gmail.com'
-    password = ''
 
-    with smtplib.SMTP('smtp.gmail.com') as connection:
-        connection.starttls()
-        connection.login(user=email, password=password)
-        connection.sendmail(from_addr=email,
-                            to_addrs='amwaniki.am@gmail.com',
-                            msg=f'Subject:KEEP GOING\n\n{message}. \nThis is sent from python. #100DaysOfCode'
-                            )
-        connection.close()
+
