@@ -8,27 +8,24 @@ import random
 # HINT: Make sure one of the entries matches today's date for testing purposes. 
 
 # 2. Check if today matches a birthday in the birthdays.csv
-# HINT 1: Only the month and day matter. 
+# HINT 1: Only the month and day matter.
+today = (dt.datetime.now())
+today_tuple = (today.month, today.day)
 # HINT 2: You could create a dictionary from birthdays.csv that looks like this:
 # birthdays_dict = {
-#     (month, day): data_row
+#     (birthday_month, birthday_day): data_row
 # }
 
-# data = pandas.read_csv('Birthday Wisher (Day 32) start/birthdays.csv')
-# birthdays_dict = {row.month: row.day for (index, row) in data.iterrows()}
-# birthday = next(iter(birthdays_dict.values()))
-# print(birthday)
 
 data = pandas.read_csv('Birthday Wisher (Day 32) start/birthdays.csv')
-birthdays_dict = {row.month: row.day for (index, row) in data.iterrows()}
-month = data['month'].iloc[0]
-birthday = birthdays_dict.get(month)
-print(birthday)
+birthdays_dict = {(data_row['month'],data_row['day']):data_row for (index, data_row) in data.iterrows()}
+birthday = next(iter(birthdays_dict.values()))
+# print(birthdays_dict[])
 
 
 #HINT 3: Then you could compare and see if today's month/day matches one of the keys in birthday_dict like this:
 # if (today_month, today_day) in birthdays_dict:
-today = dt.datetime.now()
+
 # print(today)
 
 # 3. If step 2 is true, pick a random letter from letter templates and replace the [NAME] with the person's actual name from birthdays.csv
