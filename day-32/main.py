@@ -1,7 +1,7 @@
 # import smtplib
 
 # my_email = 'nipsalvin@gmail.com'
-# password = ''
+# password = os.environ.get('GMAIL_APP_PASSWORD')
 
 # with smtplib.SMTP('smtp.gmail.com') as connection:
 #     connection.starttls()
@@ -22,6 +22,10 @@
 import datetime
 import smtplib
 import random
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 day = datetime.datetime.now()
 # print(day.weekday())
@@ -33,13 +37,13 @@ if day.weekday() == 2:
 
 
     email = 'nipsalvin@gmail.com'
-    password = ''
+    password = os.environ.get('GMAIL_APP_PASSWORD')
 
     with smtplib.SMTP('smtp.gmail.com') as connection:
         connection.starttls()
         connection.login(user=email, password=password)
         connection.sendmail(from_addr=email,
                             to_addrs='amwaniki.am@gmail.com',
-                            msg=f'Subject:KEEP GOING\n\n{message}. \nThis is sent from python. #100DaysOfCode'
+                            msg=f'Subject:KEEP GOING\n\n{message} \nThis is sent from python. #100DaysOfCode'
                             )
         connection.close()

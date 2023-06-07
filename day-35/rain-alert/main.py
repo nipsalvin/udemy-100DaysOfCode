@@ -1,10 +1,18 @@
 import requests
+from twilio.rest import Client
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 OWM_Endpoint = 'https://api.openweathermap.org/data/2.5/weather'
-api_key = ''
+api_key = os.getenv('API_KEY')
+account_sid = os.getenv('ACCOUNT_SID')
+auth_token = os.getenv('AUTH_TOKEN')
+
 PARAMETERS = {
-    'lon':-4.008256,
-    'lat':5.359952,
+    'lon':36.825500,
+    'lat':-1.167240,
     'appid':api_key,
 }
 
@@ -17,12 +25,23 @@ weather = weather_data['weather'] #Returns a list of dictionaries
 rain = weather_data['weather'][0] #Picks a dictionary from the list
 condition_code = weather_data['weather'][0]['id']
 
+will_rain = False
+
 if condition_code < 700:
-    print('Bring an umbrella')
+    will_rain = True
 
+if will_rain:
+    client = Client(account_sid, auth_token)
+    message = client.messages \
+                .create(
+                     body="It might Rain Today",
+                     from_='+13204349475',
+                     to='+254719712242'
+                 )
+    print(message.sid)
+print(condition_code)
 
-# print(condition_code)
-# # print(weather)
+# print(weather)
 # print(weather_data)
 
 
