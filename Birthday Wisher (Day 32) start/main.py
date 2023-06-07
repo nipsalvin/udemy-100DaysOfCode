@@ -2,6 +2,10 @@ import pandas
 import datetime as dt
 import random
 import smtplib
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 ##################### Hard Starting Project ######################
 
@@ -9,7 +13,7 @@ import smtplib
 # HINT: Make sure one of the entries matches today's date for testing purposes. 
 PLACEHOLDER = '[NAME]'
 EMAIL = 'nipsalvin@gmail.com'
-PASSWORD = ''
+PASSWORD = os.environ.get('GMAIL_APP_PASSWORD')
 # 2. Check if today matches a birthday in the birthdays.csv
 # HINT 1: Only the month and day matter.
 today = (dt.datetime.now())
