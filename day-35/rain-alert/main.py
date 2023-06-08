@@ -36,7 +36,7 @@ if will_rain:
                 .create(
                      body="It might Rain Today",
                      from_='+13204349475',
-                     to='+254719712242'
+                     to=os.getenv('PHONE_NUMBER')
                  )
     print(message.sid)
 print(condition_code)
