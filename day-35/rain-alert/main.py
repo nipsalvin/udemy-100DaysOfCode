@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 OWM_Endpoint = 'https://api.openweathermap.org/data/2.5/weather'
-api_key = os.getenv('API_KEY')
+api_key = os.getenv('RAIN_API_KEY')
 account_sid = os.getenv('ACCOUNT_SID')
 auth_token = os.getenv('AUTH_TOKEN')
 
