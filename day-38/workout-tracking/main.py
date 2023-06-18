@@ -18,8 +18,7 @@ nutrition_ix_endpoint = 'https://trackapi.nutritionix.com/v2/natural/exercise'
 # sheety_endpoint = 'https://api.sheety.co/9b55e9385f1db6dd5d944a0c111b8326/myWorkouts/workouts'
 sheety_endpoint = 'https://api.sheety.co/9b55e9385f1db6dd5d944a0c111b8326/myWorkouts/workouts'
 
-# exercise_text = input('What exercise did you do ?')
-exercise_text = '100 Squats'
+exercise_text = input('What exercise did you do ?')
 
 nutrition_ix_headers = {
     "x-app-id": APP_ID,
