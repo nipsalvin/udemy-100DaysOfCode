@@ -15,29 +15,27 @@ sheety_headers = {
 }
 class DataManager:
     #This class is responsible for talking to the Google Sheet.
-    get_response = requests.get(url=SHEETY_ENDPOINT, headers=sheety_headers)
-    data = get_response.json()
-    # pprint(data)
 
-    post_response = requests.put(url=f'{SHEETY_ENDPOINT}/3', headers=sheety_headers)
-    # post_response.raise_for_status()
-    print(post_response.status_code)
-    sheety_inputs = {
-        'prices':{
+    def __init__(self):
+        self.destination_data = {}
 
-        }
-    }
-
-    # for exercise in result["exercises"]:
-    # sheety_inputs = {
-    #     "workout": {
-    #         "date": today_date,
-    #         "time": now_time,
-    #         "exercise": exercise["name"].title(),
-    #         "duration": exercise["duration_min"],
-    #         "calories": exercise["nf_calories"]
-    #     }
-    # }
-    # sheety_response = requests.post(sheety_endpoint, json=sheety_inputs, headers=sheety_headers)
-
-# x = DataManager
+    def get_destination_data(self):
+        get_response = requests.get(url=SHEETY_ENDPOINT, headers=sheety_headers)
+        data = get_response.json()
+        self.destination_data = data['prices'] #self.destination_data the list
+        # pprint(self.destination_data)
+        return self.destination_data
+    
+    def update_destination_codes(self):
+        for city in self.destination_data:
+            new_data = {
+                "price": {
+                    "iataCode": city["iataCode"]
+                }
+            }
+            response = requests.put(
+                url=f"{SHEETY_ENDPOINT}/{city['id']}",
+                json=new_data,
+                headers=sheety_headers
+            )
+            print(response.text)
