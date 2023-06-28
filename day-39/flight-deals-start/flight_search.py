@@ -18,3 +18,4 @@ class FlightSearch:
         code = results[0]["code"]
         return code
     
+    
