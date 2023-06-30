@@ -20,6 +20,7 @@ class DataManager:
         self.destination_data = {}
 
     def get_destination_data(self):
+        '''Returns a list of destination prices'''
         get_response = requests.get(url=SHEETY_ENDPOINT, headers=sheety_headers)
         data = get_response.json()
         self.destination_data = data['prices'] #self.destination_data the list
@@ -27,6 +28,7 @@ class DataManager:
         return self.destination_data
     
     def update_destination_codes(self):
+        '''Updates the IATA code'''
         for city in self.destination_data:
             new_data = {
                 "price": {
