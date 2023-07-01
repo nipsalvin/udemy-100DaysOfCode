@@ -35,8 +35,8 @@ if will_rain:
     message = client.messages \
                 .create(
                      body="It might Rain Today",
-                     from_='+13204349475',
-                     to=os.getenv('PHONE_NUMBER')
+                     from_='TWILIO_VIRTUAL_NUMBER',
+                     to=os.getenv('TWILIO_VERIFIED_NUMBER')
                  )
     print(message.sid)
 print(condition_code)
