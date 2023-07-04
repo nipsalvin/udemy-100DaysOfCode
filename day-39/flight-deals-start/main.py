@@ -36,10 +36,32 @@ for destination in sheet_data:
         from_time=tomorrow,
         to_time=six_month_from_today
     )
+    if flight is None:
+        continue
+
+    # if flight.price < destination['lowestPrice']:
+    #     import ipdb;ipdb.set_trace()
+    #     MESSAGE=f"Low price alert! Only £{flight.price} to fly from {flight.origin_city}-{flight.origin_airport} to {flight.destination_city}-{flight.destination_airport}, from {flight.out_date} to {flight.return_date}."
+    #     # notification_manager.send_sms(
+    #     #     message=MESSAGE
+    #     # )
+    #     print(MESSAGE)
+    #     if flight.stop_overs > 0:
+    #         import ipdb;ipdb.set_trace()
+    #         MESSAGE += f"\nFlight has {flight.stop_overs} stop over, via {flight.via_city}."
+    #         print(MESSAGE)
+    
     if flight.price < destination['lowestPrice']:
-        notification_manager.send_sms(
-            message=f"Low price alert! Only £{flight.price} to fly from {flight.origin_city}-{flight.origin_airport} to {flight.destination_city}-{flight.destination_airport}, from {flight.out_date} to {flight.return_date}."
+        MESSAGE=f"Low price alert! Only £{flight.price} to fly from {flight.origin_city}-{flight.origin_airport} to {flight.destination_city}-{flight.destination_airport}, from {flight.out_date} to {flight.return_date}."
+        new_message = MESSAGE.replace("£", "\u00A3")
+        notification_manager.send_email(
+            message=new_message
         )
+        print(MESSAGE)
+        if flight.stop_overs > 0:
+            new_message += f"\nFlight has {flight.stop_overs} stop over, via {flight.via_city}."
+            print(new_message)
+
 
 
 
