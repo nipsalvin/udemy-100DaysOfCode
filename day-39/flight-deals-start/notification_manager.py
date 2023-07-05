@@ -9,7 +9,7 @@ TWILIO_SID = os.getenv('ACCOUNT_SID')
 TWILIO_AUTH_TOKEN = os.getenv('AUTH_TOKEN')
 TWILIO_VIRTUAL_NUMBER = os.getenv('TWILIO_VIRTUAL_NUMBER')
 TWILIO_VERIFIED_NUMBER = os.getenv('TWILIO_VERIFIED_NUMBER')
-EMAIL = 'nipsalvin@gmail.com'
+MY_EMAIL = 'nipsalvin@gmail.com'
 GMAIL_PASSWORD = os.environ.get('GMAIL_APP_PASSWORD')
 
 class NotificationManager:
@@ -26,18 +26,19 @@ class NotificationManager:
         # Prints if successfully sent.
         print(message.sid)
     
-    def send_email(self, message):
+    def send_email(self, emails , message):
         self.message = message
         with smtplib.SMTP('smtp.gmail.com') as connection:
             connection.starttls()
             connection.login(
-                user=EMAIL,
+                user=MY_EMAIL,
                 password=GMAIL_PASSWORD
             )
-            connection.sendmail(
-                from_addr=EMAIL,
-                to_addrs='amwaniki.am@gmail.com',
-                msg= self.message
-            )
+            for email in emails:
+                connection.sendmail(
+                    from_addr=MY_EMAIL,
+                    to_addrs=email,
+                    msg=f"Subject:New Low Price Flight!\n\n{message}".encode('utf-8')
+                )
             connection.close()
 

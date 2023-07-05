@@ -8,6 +8,7 @@ load_dotenv()
 
 SHEETY_APP_TOKEN = os.getenv('SHEETY_APP_TOKEN')
 SHEETY_ENDPOINT = 'https://api.sheety.co/9b55e9385f1db6dd5d944a0c111b8326/flightDeals/prices'
+SHEET_USERS_ENDPOINT = 'https://api.sheety.co/9b55e9385f1db6dd5d944a0c111b8326/flightDeals/users'
 
 sheety_headers = {
     'Authorization': f'Bearer {SHEETY_APP_TOKEN}',
@@ -41,3 +42,10 @@ class DataManager:
                 headers=sheety_headers
             )
             print(response.text)
+        
+    def get_customer_emails(self):
+        response = requests.get(url = SHEET_USERS_ENDPOINT, headers=sheety_headers)
+        data = response.json()
+        print(data)
+        self.customer_data = data["users"]
+        return self.customer_data
