@@ -36,10 +36,30 @@ for destination in sheet_data:
         from_time=tomorrow,
         to_time=six_month_from_today
     )
+    if flight is None:
+        continue
+
+        ### This is for sending SMS's ###
+    # if flight.price < destination['lowestPrice']:
+    #     MESSAGE=f"Low price alert! Only £{flight.price} to fly from {flight.origin_city}-{flight.origin_airport} to {flight.destination_city}-{flight.destination_airport}, from {flight.out_date} to {flight.return_date}."
+    #     # notification_manager.send_sms(
+    #     #     message=MESSAGE
+    #     # )
+    #     print(MESSAGE)
+    #     if flight.stop_overs > 0:
+    #         MESSAGE += f"\nFlight has {flight.stop_overs} stop over, via {flight.via_city}."
+    #         print(MESSAGE)
+    
+        ### This is for sending emails ###
     if flight.price < destination['lowestPrice']:
-        notification_manager.send_sms(
-            message=f"Low price alert! Only £{flight.price} to fly from {flight.origin_city}-{flight.origin_airport} to {flight.destination_city}-{flight.destination_airport}, from {flight.out_date} to {flight.return_date}."
-        )
+        users = data_manager.get_customer_emails()
+        emails = [row["email"] for row in users]
+        names = [row["firstName"] for row in users]
+        message = f"Low price alert! Only £{flight.price} to fly from {flight.origin_city}-{flight.origin_airport} to {flight.destination_city}-{flight.destination_airport}, from {flight.out_date} to {flight.return_date}."
+        if flight.stop_overs > 0:
+            message += f"\nFlight has {flight.stop_overs} stop over, via {flight.via_city}."
+        
+        notification_manager.send_email(emails, message)
 
 
 
