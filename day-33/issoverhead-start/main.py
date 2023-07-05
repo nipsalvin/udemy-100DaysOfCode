@@ -9,7 +9,7 @@ load_dotenv()
 
 MY_LAT = -1.249970 # Your latitude
 MY_LONG = 36.685459 # Your longitude
-EMAIL = 'nipsalvin@gmail.com'
+EMAIL = os.getenv('MY_EMAIL')
 PASSWORD = os.environ.get('GMAIL_APP_PASSWORD')
 
 
