@@ -87,7 +87,7 @@ if abs(percentage_change) > 1:
     for article in news_data:
         message = client.messages.create(
                         body=article,
-                        from_='+13204349475',
+                        from_=os.getenv('TWILIO_VIRTUAL_NUMBER'),
                         to=os.getenv('PHONE_NUMBER')
                     )
         print(message.sid)

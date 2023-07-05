@@ -9,7 +9,7 @@ TWILIO_SID = os.getenv('ACCOUNT_SID')
 TWILIO_AUTH_TOKEN = os.getenv('AUTH_TOKEN')
 TWILIO_VIRTUAL_NUMBER = os.getenv('TWILIO_VIRTUAL_NUMBER')
 TWILIO_VERIFIED_NUMBER = os.getenv('TWILIO_VERIFIED_NUMBER')
-MY_EMAIL = 'nipsalvin@gmail.com'
+MY_EMAIL = os.getenv('MY_EMAIL')
 GMAIL_PASSWORD = os.environ.get('GMAIL_APP_PASSWORD')
 
 class NotificationManager:
