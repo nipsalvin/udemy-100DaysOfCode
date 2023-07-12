@@ -1,0 +1,9 @@
+body{
+    background-color: black;
+}
+
+#heading_1{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    /* font-family: 'Regular Libre Baskerville'; */
+    color: white;
+}
