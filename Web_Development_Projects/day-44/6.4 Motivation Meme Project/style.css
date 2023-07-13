@@ -1,0 +1,16 @@
+body{
+    background-color: black;
+}
+
+#heading_1{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    /* font-family: 'Regular Libre Baskerville'; */
+    color: white;
+}
+
+#paragraph_1{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: white;
+}
+
+#image_1{}
