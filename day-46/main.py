@@ -8,15 +8,21 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-scope = "user-library-read"
+SPOTIFY_CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
+SPOTIFY_CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
+REDIRECT_URL = 'https://open.spotify.com/'
+SCOPE = "user-library-read"
 
 
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
+sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=SPOTIFY_CLIENT_ID, 
+                                               client_secret=SPOTIFY_CLIENT_SECRET, 
+                                               redirect_uri=REDIRECT_URL, 
+                                               scope=SCOPE))
 
-results = sp.current_user_saved_tracks()
-for idx, item in enumerate(results['items']):
-    track = item['track']
-    print(idx, track['artists'][0]['name'], " – ", track['name'])
+# results = sp.current_user_saved_tracks()
+# for idx, item in enumerate(results['items']):
+#     track = item['track']
+#     print(idx, track['artists'][0]['name'], " – ", track['name'])
     
 # date = input('Which year would you like to travel to? (YYYY-MM-DD)')
 
