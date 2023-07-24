@@ -10,31 +10,26 @@ load_dotenv()
 
 SPOTIFY_CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
 SPOTIFY_CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
-REDIRECT_URL = 'https://open.spotify.com/'
-SCOPE = "user-library-read"
-
+SPOTIFY_USERNAME = os.getenv('SPOTIFY_USERNAME')
+REDIRECT_URI = 'https://example.com' ###Has to match the URL when creating the app
+SCOPE = 'playlist-modify-private'
 
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=SPOTIFY_CLIENT_ID, 
                                                client_secret=SPOTIFY_CLIENT_SECRET, 
-                                               redirect_uri=REDIRECT_URL, 
-                                               scope=SCOPE))
+                                               redirect_uri=REDIRECT_URI,  
+                                               scope=SCOPE, 
+                                               show_dialog=True,
+                                               cache_path='token.txt',
+                                               username=SPOTIFY_USERNAME))
 
-# results = sp.current_user_saved_tracks()
-# for idx, item in enumerate(results['items']):
-#     track = item['track']
-#     print(idx, track['artists'][0]['name'], " – ", track['name'])
-    
-# date = input('Which year would you like to travel to? (YYYY-MM-DD)')
+#gets current_user and writes the details in the `cache_path`
+user_id = sp.current_user()["id"]
+display_name = sp.current_user()['display_name']
 
-# billboard_response = requests.get(f'https://www.billboard.com/charts/hot-100/{date}')
-# billboard_page = billboard_response.text
+print(user_id, display_name)
 
-# soup=BeautifulSoup(billboard_page, 'html.parser')
 
-# song_name_spans=soup.select("li ul li h3")
-# song_names = [song.getText().strip() for song in song_name_spans]
 
-# print(song_names)
 
 
 
