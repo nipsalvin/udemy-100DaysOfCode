@@ -33,12 +33,36 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=SPOTIFY_CLIENT_ID,
                                                cache_path='token.txt',
                                                username='Nips'))
 
-#gets current_user and writes the details in the `cache_path`
+## Gets current_user and writes the details in the `cache_path`
 user_id = sp.current_user()["id"]
 display_name = sp.current_user()['display_name']
 
-print(user_id, display_name)
-print(song_names)
+## Getting songs to add to the playlist
+song_uris = []
+year = date.split("-")[0]
+for song in song_names:
+    result = sp.search(q=f"track:{song} year:{year}", type="track")
+    try:
+        uri = result["tracks"]["items"][0]["uri"]
+        song_uris.append(uri)
+    except IndexError:
+        print(f"{song} doesn't exist in Spotify. Skipped.")
+
+## Create a new private playlist
+playlist_name = f'BillBoard {date} Playlist'
+playlist_description = 'A Playlist created from python'
+playlist = sp.user_playlist_create(user=user_id, 
+                                   name=playlist_name, 
+                                   public=False, 
+                                   description=playlist_description)
+playlist_id = playlist['id']
+
+
+
+
+print(result)
+# print(user_id, display_name)
+# print(song_names)
 
 
 
