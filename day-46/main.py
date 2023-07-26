@@ -10,7 +10,7 @@ load_dotenv()
 
 SPOTIFY_CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
 SPOTIFY_CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
-REDIRECT_URI = 'https://example.com' ###Has to match the URL when creating the app
+REDIRECT_URI = 'https://example.com' ###Has to match the URL specified when creating the app
 SCOPE = 'playlist-modify-private'
 
 ##Scraping billboard to get top 100 songs
@@ -37,7 +37,7 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=SPOTIFY_CLIENT_ID,
 user_id = sp.current_user()["id"]
 display_name = sp.current_user()['display_name']
 
-## Getting songs to add to the playlist
+## Getting songs from spotify to add to the playlist
 song_uris = []
 year = date.split("-")[0]
 for song in song_names:
@@ -45,6 +45,7 @@ for song in song_names:
     try:
         uri = result["tracks"]["items"][0]["uri"]
         song_uris.append(uri)
+        print(f'{song} added.')
     except IndexError:
         print(f"{song} doesn't exist in Spotify. Skipped.")
 
@@ -57,13 +58,10 @@ playlist = sp.user_playlist_create(user=user_id,
                                    description=playlist_description)
 playlist_id = playlist['id']
 
-
-
-
-print(result)
-# print(user_id, display_name)
-# print(song_names)
-
+## Adding songs to Spotify
+### If you have the user's credentials and want to interact with a user's private playlists, use user_playlist_add_tracks(). 
+### If you only have access to the playlist ID and want to add tracks to a public playlist or a playlist that doesn't require user-specific actions, use playlist_add_items()
+sp.playlist_add_items(playlist_id=playlist_id, items=song_uris)
 
 
 
