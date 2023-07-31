@@ -2,12 +2,13 @@
 
 # my_email = 'nipsalvin@gmail.com'
 # password = os.environ.get('GMAIL_APP_PASSWORD')
+# EMAIL_2 = os.getenv('MY_EMAIL_2')
 
 # with smtplib.SMTP('smtp.gmail.com') as connection:
 #     connection.starttls()
 #     connection.login(user=my_email, password=password)
 #     connection.sendmail(from_addr=my_email, 
-#                         to_addrs='amwaniki.am@gmail.com', 
+#                         to_addrs=EMAIL_2 , 
 #                         msg='Subject:TEST\n\nThis is a test Email.')
 #     connection.close()
 

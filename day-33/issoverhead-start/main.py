@@ -10,6 +10,7 @@ load_dotenv()
 MY_LAT = -1.249970 # Your latitude
 MY_LONG = 36.685459 # Your longitude
 EMAIL = os.getenv('MY_EMAIL')
+EMAIL_2 = os.getenv('MY_EMAIL_2')
 PASSWORD = os.environ.get('GMAIL_APP_PASSWORD')
 
 
@@ -51,5 +52,5 @@ while True:
             connection.starttls()
             connection.login(user=EMAIL, password=PASSWORD)
             connection.sendmail(from_addr=EMAIL,
-                                to_addrs='amwaniki.am"gmail.com',
+                                to_addrs=EMAIL_2,
                                 msg='Subject:ISS is overhead\n\nLook to the sky')
