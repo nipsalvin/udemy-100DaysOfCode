@@ -98,7 +98,7 @@ website_entry.focus() #Starts the GUI with the cursor here by default
 
 email_entry = Entry(width=35)
 email_entry.grid(row=2, column=1, columnspan=2)
-email_entry.insert(0, 'amwaniki.am@gmail.com')
+email_entry.insert(0, 'nipsalvin@gmail.com')
 
 password_entry = Entry(width=17)
 password_entry.grid(row=3, column=1)
