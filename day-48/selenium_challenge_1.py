@@ -6,14 +6,16 @@ url = 'https://www.python.org/'
 driver = webdriver.Chrome()
 driver.get(url)
 
-upcoming_events = driver.find_elements(By.CSS_SELECTOR, '.shrubbery ul li')
-print(upcoming_events)
+event_names = driver.find_elements(By.CSS_SELECTOR, '.event-widget a')
+event_times = driver.find_elements(By.CSS_SELECTOR, '.event-widget time')
 
 ## TODO complete this code
-for event in upcoming_events:
+for time in event_times:
+    print(time.text)
+
+for event in event_names:
     print(event.text)
 
-
-
+driver.quit()
 
 
