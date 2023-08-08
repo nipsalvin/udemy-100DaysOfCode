@@ -15,31 +15,36 @@ URL = 'https://www.linkedin.com/jobs/search/?f_LF=f_AL&geoId=102257491&keywords=
 driver = webdriver.Firefox()
 driver.get(URL)
 
+# Find sign-in button and click on it
 sign_in_button = driver.find_element(By.LINK_TEXT, 'Sign in')
 sign_in_button.click()
 
 #Wait for the next page to load.
 time.sleep(5)
+# Find email field and fill it and ENTER
 email_field = driver.find_element(By.ID, 'username')
 email_field.send_keys(ACCOUNT_EMAIL)
 password_field = driver.find_element(By.ID, 'password')
 password_field.send_keys(ACCOUNT_PASSWORD)
 password_field.send_keys(Keys.ENTER)
 
+#Wait for the next page to load.
 time.sleep(10)
+#Find Easy apply button and click on it
 button = driver.find_element(By.CSS_SELECTOR, '.jobs-s-apply button')
 button.click()
 
+#Wait for the next page to load.
 time.sleep(5)
+#Find phone-number input and enter number
 phone = driver.find_element(By.CLASS_NAME, 'artdeco-text-input--input' )
 if phone.text == "":
     phone.send_keys(PHONE_NUMBER)
 
+#Wait for the next page to load.
 time.sleep(5)
+#Find submit button and click on it
 next = driver.find_element(By.CSS_SELECTOR, 'footer button')
-print('submit',next)
-print('submit tagname', next.tag_name)
-print('submit text', next.text)
 next.click()
 
 
