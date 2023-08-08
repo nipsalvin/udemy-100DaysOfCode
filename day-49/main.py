@@ -7,8 +7,9 @@ import time
 
 load_dotenv()
 
-ACCOUNT_EMAIL = os.getenv('MY_EMAIL_3')
+ACCOUNT_EMAIL = os.getenv('MY_EMAIL')
 ACCOUNT_PASSWORD = os.getenv('LINKEDIN_PASSWORD')
+PHONE_NUMBER = os.getenv('TWILIO_VERIFIED_NUMBER')
 URL = 'https://www.linkedin.com/jobs/search/?f_LF=f_AL&geoId=102257491&keywords=python%20developer&location=London%2C%20England%2C%20United%20Kingdom&redirect=false&position=1&pageNum=0'
 
 driver = webdriver.Firefox()
@@ -25,7 +26,26 @@ password_field = driver.find_element(By.ID, 'password')
 password_field.send_keys(ACCOUNT_PASSWORD)
 password_field.send_keys(Keys.ENTER)
 
+time.sleep(5)
+div_elements = driver.find_elements(By.TAG_NAME, 'div')
+div_class = 'jobs-s-apply'
+# filtered_class = [button for button in div_elements if button.get_attribute('class') == div_class]
+# print(filtered_class)
+for div in div_elements:
+    print(div.get_attribute('class'))
 
-driver.quit()
+
+
+
+# phone = driver.find_element(By.CLASS_NAME, 'artdeco-text-input--input' )
+# if phone.text == "":
+#     phone.send_keys(PHONE_NUMBER)
+
+# submit = driver.find_element(By.CLASS_NAME, 'artdeco-button__text')
+# submit.click()
+
+
+
+# driver.quit()
 
 
