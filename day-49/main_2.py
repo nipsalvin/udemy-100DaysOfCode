@@ -29,19 +29,54 @@ password_field = driver.find_element(By.ID, 'password')
 password_field.send_keys(ACCOUNT_PASSWORD)
 password_field.send_keys(Keys.ENTER)
 
-#Wait for the next page to load.
-time.sleep(10)
-#Find Easy apply button and click on it
-buttons = driver.find_elements(By.CSS_SELECTOR, '.jobs-s-apply button')
-easy_apply = buttons[0]
-save_for_later = buttons[1]
-save_for_later.click()
 
 time.sleep(5)
-## TODO
-''' Get all divs from the navigation panel then loop through all of them'''
+all_jobs = driver.find_elements(By.CSS_SELECTOR, '.job-card-container--clickable')
+
+for job in all_jobs:
+    print(f'{job.text} called')
+    job.click()
+    time.sleep(5)
+
+    try:
+        #Find Easy apply button and click on it
+        button = driver.find_element(By.CSS_SELECTOR, '.jobs-s-apply button')
+        button.click()
+        time.sleep(5)
+
+        phone = driver.find_element(By.CLASS_NAME, 'artdeco-text-input--input' )
+        if phone.text == "":
+            phone.send_keys(PHONE_NUMBER)
+
+        submit = driver.find_element(By.CSS_SELECTOR, 'footer button')
+        submit.click()
+
+         #If the submit_button is a "Next" button, then this is a multi-step application, so skip.
+        if submit.get_attribute("data-control-name") == "continue_unify":
+            close_button = driver.find_element(By.CLASS_NAME, 'artdeco-modal__dismiss')
+            close_button.click()
+            time.sleep(3)
+
+            discard_button = driver.find_elements(By.CLASS_NAME, 'artdeco-modal__confirm-dialog-btn')[1]
+            discard_button.click()
+            print("Complex application, skipped.")
+            continue
+        else:
+            submit.click()
+
+        #Once application completed, close the pop-up window.
+        time.sleep(3)
+        close_button = driver.find_element(By.CLASS_NAME, 'artdeco-modal__dismiss')
+        close_button.click()
+
+        #If already applied to job or job is no longer accepting applications, then skip.
+    except NoSuchElementException:
+        print("No application button, skipped.")
+        continue
 
 
+
+time.sleep(5)
 driver.quit()
 
 
