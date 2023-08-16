@@ -1,5 +1,5 @@
 import os
-import time
+from time import sleep
 from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -13,16 +13,14 @@ URL = 'https://tinder.com/app/recs'
 driver = webdriver.Firefox()
 driver.get(URL)
 
-time.sleep(5)
+sleep(5)
 log_in_text = driver.find_element(By.LINK_TEXT, 'Log in')
-time.sleep(5)
-log_in_with_number = driver.find_element(By.XPATH, '/html/body/div[2]/main/div[1]/div/div[1]/div/div/div[2]/div[2]/span/div[3]/button')
-
-# class="Mx(a) Fxs(0) Sq(70px) Sq(60px)--s Bd Bdrs(50%) Bdc($c-ds-border-gamepad-nope-default)"
-# class="Mx(a) Fxs(0) Sq(70px) Sq(60px)--s Bd Bdrs(50%) Bdc($c-ds-border-gamepad-like-default)"
-
-
+log_in_text.click()
+sleep(5)
+# log_in_with_number = driver.find_element(By.XPATH, '/html/body/div[2]/main/div[1]/div/div[1]/div/div/div[2]/div[2]/span/div[3]/button')
+log_in_with_fb = driver.find_element(By.XPATH, '//*[@id="email"]')
 
 
 
 driver.quit()
+
