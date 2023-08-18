@@ -16,6 +16,10 @@ send_keys(Keys.ENTER) `Clicks return automatically`
 driver.close() `closes tab`
 driver.quit() `closes browser`
 
+driver.window_handles `Returns a list of window handles or identifiers for all the currently open browser windows or tabs`
+You can get the window you want like this:
+    window_1 = driver.window_handles[0]
+    window_2 = driver.window_handles[1]
 
 
 
