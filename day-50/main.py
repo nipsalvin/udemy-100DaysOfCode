@@ -18,6 +18,7 @@ chrome_options.add_argument('--use-fake-ui-for-media-stream')  # Suppress locati
 
 driver = webdriver.Chrome(options=chrome_options)
 driver.get(URL)
+driver.maximize_window()
 
 sleep(10)
 #Allow cookies
@@ -39,39 +40,42 @@ fb_window =  driver.window_handles[1]
 #Switch to pop-up login window
 sleep(10)
 driver.switch_to.window(fb_window)
-driver.maximize_window()
 email = driver.find_element(By.NAME, 'email')
 email.send_keys(EMAIL)
+sleep(2)
 password =  driver.find_element(By.NAME, 'pass')
 password.send_keys(FB_PASSWORD)
+sleep(2)
 fb_login_button = driver.find_element(By.ID, 'loginbutton')
 fb_login_button.click()
 
 #Switch back to original page
-driver.switch_to.window(tinder_window)
+driver.switch_to.window(tinder_window) 
 #Allow location
-sleep(10)
+sleep(20)
 allow_location = driver.find_element(By.CLASS_NAME, 'l17p5q9z')
 allow_location.click()
 
-sleep(5)
+sleep(10)
 #Accepting cookies and Disabling Notifications
 disable_notifications = driver.find_elements(By.CLASS_NAME, 'l17p5q9z')
 disable_notifications = disable_notifications[1]
 disable_notifications.click()
-
+sleep(10)
 # TODO: Start swiping
 for n in range(50):
     sleep(2)
-    try:
-        dislike_button = driver.find_element(By.XPATH,'//*[@id="q1298270057"]/div/div[1]/div/main/div[1]/div/div/div[1]/div[1]/div/div[4]/div/div[2]')
-        like_button = driver.find_element(By.XPATH,'//*[@id="q1298270057"]/div/div[1]/div/main/div[1]/div/div/div[1]/div[1]/div/div[4]/div/div[4]')
+    try:   
+        dislike_button = driver.find_element(By.XPATH,'//*[@id="q1298270057"]/div/div[1]/div/main/div[1]/div/div/div[1]/div[1]/div/div[3]/div/div[2]/button')
+        like_button = driver.find_element(By.XPATH,'//*[@id="q1298270057"]/div/div[1]/div/main/div[1]/div/div/div[1]/div[1]/div/div[3]/div/div[4]/button')
         if n%2 == 0:
             like_button.click()
+            print('Swipped Right')
         else:
             dislike_button.click()
+            print('Swipped Left')
 
-    #Catches the cases where there is a "Matched" pop-up in front of the "Like" button:
+    # Catches the cases where there is a "Matched" pop-up in front of the "Like" button:
     except ElementClickInterceptedException:
         try:
             match_popup = driver.find_element(By.CSS_SELECTOR, ".itsAMatch a")
