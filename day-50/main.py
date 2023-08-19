@@ -63,11 +63,11 @@ disable_notifications = disable_notifications[1]
 disable_notifications.click()
 sleep(10)
 # TODO: Start swiping
+dislike_button = driver.find_element(By.XPATH,'//*[@id="q1298270057"]/div/div[1]/div/main/div[1]/div/div/div[1]/div[1]/div/div[3]/div/div[2]/button')
+like_button = driver.find_element(By.XPATH,'//*[@id="q1298270057"]/div/div[1]/div/main/div[1]/div/div/div[1]/div[1]/div/div[3]/div/div[4]/button')
 for n in range(50):
     sleep(2)
     try:   
-        dislike_button = driver.find_element(By.XPATH,'//*[@id="q1298270057"]/div/div[1]/div/main/div[1]/div/div/div[1]/div[1]/div/div[3]/div/div[2]/button')
-        like_button = driver.find_element(By.XPATH,'//*[@id="q1298270057"]/div/div[1]/div/main/div[1]/div/div/div[1]/div[1]/div/div[3]/div/div[4]/button')
         if n%2 == 0:
             like_button.click()
             print('Swipped Right')
