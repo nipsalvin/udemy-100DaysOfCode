@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 
 load_dotenv()
 
-SPEED_TEST = 'https://www.speedtest.net/'
+SPEED_TEST = 'https://fast.com/'
 TWITTER_URL = 'https://twitter.com/'
 PROMISED_UP = 15
 PROMISED_DOWN = 20
@@ -21,14 +21,14 @@ class InternetSpeedTwitterBot:
     
     def get_internet_speed(self):
         '''Getting current internet speed'''
-        self.driver.get(SPEED_TEST)
         self.driver.maximize_window()
-        sleep(10)
-        go = self.driver.find_element(By.XPATH, '//*[@id="container"]/div/div[3]/div/div/div/div[2]/div[3]/div[1]/a/span[4]')
-        go.click()
+        self.driver.get(SPEED_TEST)
         sleep(20)
-        self.down = self.driver.find_element(By.XPATH, '//*[@id="container"]/div/div[3]/div/div/div/div[2]/div[3]/div[3]/div/div[3]/div/div/div[2]/div[1]/div[1]/div/div[2]/span').text
-        self.up = self.driver.find_element(By.XPATH, '//*[@id="container"]/div/div[3]/div/div/div/div[2]/div[3]/div[3]/div/div[3]/div/div/div[2]/div[1]/div[2]/div/div[2]/span').text
+        more_details = self.driver.find_element(By.XPATH, '//*[@id="show-more-details-link"]')
+        more_details.click()
+        sleep(20)
+        self.down = self.driver.find_element(By.XPATH, '//*[@id="speed-value"]').text
+        self.up = self.driver.find_element(By.XPATH, '//*[@id="upload-value"]').text
 
     def tweet_at_provider(self):
         '''Logging in to Twitter and posting a tweet'''
@@ -38,7 +38,7 @@ class InternetSpeedTwitterBot:
                         and {PROMISED_DOWN}mbps download speed.'''
         self.driver.get(TWITTER_URL)
         self.driver.maximize_window()
-        sleep(15)
+        sleep(10)
         sign_in = self.driver.find_element(By.LINK_TEXT, 'Sign in')
         sign_in.click()
         sleep(15)
@@ -67,3 +67,4 @@ class InternetSpeedTwitterBot:
 bot = InternetSpeedTwitterBot()
 bot.get_internet_speed()
 bot.tweet_at_provider()
+
