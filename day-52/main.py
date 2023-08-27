@@ -8,8 +8,6 @@ from selenium.common.exceptions import ElementClickInterceptedException
 
 load_dotenv()
 
-
-SIMILAR_ACCOUNT = 'rogersndegwamuraguri'
 USERNAME = os.getenv('IG_USERNAME')
 PASSWORD = os.getenv('IG_PASSWORD')
 TARGET_ACCOUNT = os.getenv('IG_TARGET_ACCOUNT')
