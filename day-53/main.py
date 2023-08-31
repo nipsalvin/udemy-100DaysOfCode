@@ -5,8 +5,6 @@ from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import ElementClickInterceptedException
 
 load_dotenv()
 
@@ -29,9 +27,9 @@ property_links = []
 for link in all_address_elements:
     property_link = link.get("href")
     if "http" in property_link :
-        property_links.append(property_links )
+        property_links.append(property_link)
     else:
-        property_links.append(f"https://www.zillow.com{property_links }")
+        property_links.append(f"https://www.zillow.com{property_link}")
 
 #TODO 3: Create a list of prices for all the listings scraped
 property_price_elements = soup.select(".photo-cards li span")
@@ -46,7 +44,7 @@ for price in property_price_elements:
             property_price = property_price.split("/")[0] #Splits into 2 items then gets [0]
             property_prices.append(property_price)
         # If price string has number of bedrooms
-        elif "+" in property_price:
+        if "+" in property_price:
             property_price = property_price.split("+")[0] #Splits into 2 items then gets [0]
             property_prices.append(property_price)
 
@@ -65,19 +63,17 @@ for address in property_address_elements:
     property_addresses.append(property_address)
     
 #TODO 5: Use Selenium to fill in the form you created.
-driver = webdriver.Chrome()
+driver = webdriver.Firefox()
 driver.maximize_window()
 
 for address, price, link in zip(property_addresses, property_prices, property_links):
     # Go to Google form
-    driver.get("https://docs.google.com/forms/d/1kxqmrdsl4yFVj8EyPi6b7fneRWXr2IbHyPrFxkguvrs")
-    sleep(5)
-    
+    driver.get(GOOGLE_FORM)
+    sleep(10)
     # Find input fields for address, price, and link
-    address_input = driver.find_element("xpath", '//*[@id="mG61Hd"]/div[2]/div/div[2]/div[1]/div/div/div[2]/div/div[1]/div/div[1]/input')
-    price_input = driver.find_element("xpath", '//*[@id="mG61Hd"]/div[2]/div/div[2]/div[2]/div/div/div[2]/div/div[1]/div/div[1]/input')
-    link_input = driver.find_element("xpath", '//*[@id="mG61Hd"]/div[2]/div/div[2]/div[3]/div/div/div[2]/div/div[1]/div/div[1]/input')
-    
+    address_input = driver.find_element(By.XPATH, '//*[@id="mG61Hd"]/div[2]/div/div[2]/div[1]/div/div/div[2]/div/div[1]/div/div[1]/input')
+    price_input = driver.find_element(By.XPATH, '//*[@id="mG61Hd"]/div[2]/div/div[2]/div[2]/div/div/div[2]/div/div[1]/div/div[1]/input')
+    link_input = driver.find_element(By.XPATH, '//*[@id="mG61Hd"]/div[2]/div/div[2]/div[3]/div/div/div[2]/div/div[1]/div/div[1]/input')
     # Fill in form fields
     address_input.send_keys(address)
     sleep(2)
