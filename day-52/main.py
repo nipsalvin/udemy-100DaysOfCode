@@ -42,7 +42,6 @@ class InstaFollower:
 
     def find_followers(self):
         '''Finds followers in the target IG account'''
-        import ipdb;ipdb.set_trace()
         self.driver.get(TARGET_ACCOUNT)
         sleep(5)
         Target_account_followers = self.driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/div[2]/section/main/div/header/section/ul/li[2]/a')
