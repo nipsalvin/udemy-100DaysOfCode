@@ -17,6 +17,12 @@ def guest(name):
     gender = gender_response['gender']
     return render_template('guess.html', name=guest, age=age, gender=gender)
 
+@app.route('/blog')
+def get_blog():
+    response = requests.get('https://api.npoint.io/c790b4d5cab58020d391')
+    blogs = response.json()
+    return render_template('blog.html', blogs=blogs)
+
 if __name__ == '__main__':
     app.run(debug=True)
 
