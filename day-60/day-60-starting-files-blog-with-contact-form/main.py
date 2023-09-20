@@ -1,11 +1,13 @@
 from flask import Flask, render_template, request
 import requests
 import os
-from dotenv import load_dotenv
+import smtplib
+# from dotenv import load_dotenv
 
-load_dotenv()
+# load_dotenv()
 
 MY_EMAIL = os.getenv('MY_EMAIL')
+MY_EMAIL_2 = os.getenv('MY_EMAIL_2')
 EMAIL_PASSWORD = os.getenv('GMAIL_APP_PASSWORD')
 # USE YOUR OWN npoint LINK! ADD AN IMAGE URL FOR YOUR POST. 👇
 posts = requests.get('https://api.npoint.io/7770e7eff9765a42992b').json()
@@ -27,12 +29,14 @@ def about():
 def contact():
     if request.method == 'POST':
         data = request.form
-        print(data["name"])
-        print(data["email"])
-        print(data["phone"])
-        print(data["message"])
+        name = data["name"]
+        email = data["email"]
+        phone = data["phone"]
+        message = data["message"]
+
+        send_email(name, email, phone, message)
         ### You can either pass the msg_sent as a variable from python to html or pass it as a boolean and write the message in HTML
-        msg_sent = f'Message Successfully sent {data["message"]}'
+        msg_sent = f'Message Successfully sent {message}'
         # return render_template("contact.html", msg_sent=msg_sent)
         return render_template("contact.html", msg_sent=True)
     else:
@@ -40,8 +44,13 @@ def contact():
         return render_template("contact.html", msg_sent = False)
 
 def send_email(name, email, phone, message):
-    pass
-
+    '''Sends email once message is sent from contacts'''
+    email_msg = f"Subject:Blog Email\n\nName: {name}\nEmail: {email}\nPhone: {phone}\nMessage:{message}"
+    with smtplib.SMTP('smtp.gmail.com') as connection:
+        connection.starttls()
+        connection.login(MY_EMAIL, EMAIL_PASSWORD)
+        connection.sendmail(MY_EMAIL, MY_EMAIL_2, email_msg)
+        print(f'{email_msg}\nMessage sent')
 
 @app.route("/post/<int:index>")
 def show_post(index):
