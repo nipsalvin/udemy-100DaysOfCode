@@ -6,8 +6,15 @@
 	</head>
 	<body>
         <div class="container">
-		<h1>Login</h1>
-        <!-- This is where our form will go. -->
+			<h1>Login</h1>
+			<!-- This is where our form will go. -->
+			<form method="POST" action="{{ url_for('login') }}">
+				{{ form.csrf_token }}
+				{{ form.name.label(size=20)  }} {{ form.name }} 
+				{{ form.email.label }} {{ form.email }} 
+				{{ form.password.label}} {{ form.password}}
+				<input type="submit" value="Submit">
+			</form>
         </div>
 	</body>
 </html>
