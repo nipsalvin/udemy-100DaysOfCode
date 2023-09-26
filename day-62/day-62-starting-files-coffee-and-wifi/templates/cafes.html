@@ -17,7 +17,11 @@
         {% for row in cafes %}
         <tr>
             {% for cell in row %}
-              <td>{{ cell }}</td>
+              {% if cell.startswith('http') %}
+                <td><a href="{{cell}}">Map Link</a></td>
+              {% else %}
+                <td>{{ cell }}</td>
+              {% endif %}
             {% endfor %}
         </tr>
         {% endfor %}
