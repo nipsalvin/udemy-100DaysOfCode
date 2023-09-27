@@ -49,10 +49,9 @@ def add_cafe():
         coffee_rating = request.form.get('coffee_rating')
         wifi_rating = request.form.get('wifi_rating')
         power_rating = request.form.get('power_rating')
-        print(cafe, location, open_time, closing_time, coffee_rating, wifi_rating, power_rating)
         csv_file = 'cafe-data.csv'
         with open(csv_file, mode="a", newline='',encoding='utf-8') as file:
-            file.write(f'\n{cafe}, {location}, {open_time}, {closing_time}, {coffee_rating}, {wifi_rating}, {power_rating}')        
+            file.write(f'\n{cafe},{location},{open_time},{closing_time},{coffee_rating},{wifi_rating},{power_rating}')        
         return redirect(url_for('cafes'))
     return render_template('add.html', form=form)
 
