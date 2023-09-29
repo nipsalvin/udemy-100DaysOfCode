@@ -24,7 +24,7 @@ class Books(db.Model):
 
 # Create table schema in the database. Requires application context.
 with app.app_context():
-    new_book = Books(id= 1, title= "5 am Club", author= "Robin Sharma", rating= 9.3)
+    new_book = Books(title= "Outwitting the Devil", author= "Napoleon Hill", rating= 9.3)
     db.session.add(new_book)
     db.session.commit()
 
