@@ -6,10 +6,14 @@
   </head>
   <body>
     <h1>My Library</h1>
+
     {% if has_books %}
       {% for book in books %}
         <ul>
-          <li>{{ book['title']}} - {{book.author}} - {{book.rating}}/10</li> <!--You can either use [] or .-->
+          <li>
+            {{ book['title']}} - {{book.author}} - {{book.rating}}/10 <!--You can either use [] or .-->
+            <a href="{{ url_for('edit', pk=book.id) }}"> Edit rate</a>
+          </li> 
         </ul>
       {% endfor %}
     {% else %}
