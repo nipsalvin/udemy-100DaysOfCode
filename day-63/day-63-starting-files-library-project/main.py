@@ -24,8 +24,7 @@ with app.app_context(): #creates a temporary application context.
 @app.route('/')
 def home():
     all_books = db.session.execute(db.select(Book).order_by(Book.title)).scalars().all()
-    has_books = False if all_books == [] else True
-    return render_template('index.html', books=all_books, has_books=has_books)
+    return render_template('index.html', books=all_books)
 
 @app.route("/add", methods=['GET','POST'])
 def add():
@@ -47,14 +46,30 @@ def add():
         return redirect(url_for('home'))
     return render_template('add.html')
 
-@app.get('/edit/<int:pk>')
-def edit(pk):
-    import ipdb;ipdb.set_trace()
-    edit_book = db.session.execute(db.select(Book).where(Book.id == pk)).scalar()
-    edit_book.rating = request.form["rating"]
-    # db.session.commit()
+@app.route('/edit', methods=['GET', 'POST'])
+def edit():
+    #Once you submit the requst is sent as a 'POST' 
+    if request.method == 'POST':
+        book_id = request.form['id']
+        edit_book = db.session.execute(db.select(Book).where(Book.id == book_id)).scalar()
+        edit_book.rating = request.form["rating"]
+        db.session.commit()
+        return redirect(url_for('home'))
+    #This is what is rendered in the first run when request is still not 'POST'
+    book_id = request.args.get('id')
+    book_selected = db.get_or_404(Book, book_id)
+    return render_template("edit.html", book=book_selected)
 
-    return f'<h1> hello world this is pk {pk}</h1>'
+@app.route('/delete', methods=['GET', 'POST'])
+def delete():
+    import ipdb;ipdb.set_trace()
+    book_id = request.args.get('id')
+    # book_to_delete = db.session.execute(db.select(Book).where(Book.id == book_id)).scalar()
+    book_selected = db.get_or_404(Book, book_id)
+    db.session.delete(book_selected)
+    db.session.commit()
+    return redirect(url_for('home'))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
