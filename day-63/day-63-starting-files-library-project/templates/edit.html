@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Book</title>
+</head>
+<body>
+    <form action="{{ url_for('edit') }}" method="POST">
+      <p>Book Name: {{book.title}}</p>
+      <p>Book Rating: {{book.rating}}</p>
+      <input hidden="hidden" name="id" value="{{book.id}}">
+      <input name="rating" type="text" placeholder="New Rating">
+      <button type="submit">Add Book</button>
+    </form>
+</body>
+</html>
