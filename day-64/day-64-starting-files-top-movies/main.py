@@ -48,11 +48,25 @@ def add():
             review = request.form['review'],
             img_url = request.form['image']
         )
-        db.session.add(new_movie)
-        db.session.commit()
+        with app.app_context():
+            db.session.add(new_movie)
+            db.session.commit()
         return redirect(url_for('home'))
     return render_template('add.html')
 
+@app.route('/edit', methods=['GET','POST'])
+def edit():
+    # import ipdb;ipdb.set_trace()
+    if request.method == 'POST':
+        movie_id=request.form['id']
+        movie_edit = db.session.execute(db.select(Movie).where(Movie.id == movie_id)).scalar()
+        movie_edit.rating = request.form['rating']
+        movie_edit.review = request.form['review']
+        db.session.commit()
+        return redirect(url_for('home'))        
+    movie_id = request.args.get('id')
+    movie = db.get_or_404(Movie, movie_id)
+    return render_template('edit.html', movie=movie)
 
 if __name__ == '__main__':
     app.run(debug=True)
