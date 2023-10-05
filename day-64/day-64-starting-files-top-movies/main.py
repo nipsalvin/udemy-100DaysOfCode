@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request
 from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, FloatField, IntegerField
 from wtforms.validators import DataRequired
 import requests
 import os
@@ -31,6 +31,12 @@ class Movie(db.Model):
 with app.app_context():
     db.create_all()
 
+class RateMovieForm(FlaskForm):
+    rating = FloatField(label='Rating', validators=[DataRequired()])
+    review = StringField(label='Review', validators=[DataRequired()])
+    ranking = IntegerField(label='Ranking', validators=[DataRequired()])
+    submit = SubmitField(label='Done')
+
 @app.route("/")
 def home():
     all_movies = db.session.execute(db.select(Movie).order_by(Movie.ranking)).scalars().all()
@@ -56,17 +62,24 @@ def add():
 
 @app.route('/edit', methods=['GET','POST'])
 def edit():
-    # import ipdb;ipdb.set_trace()
-    if request.method == 'POST':
-        movie_id=request.form['id']
-        movie_edit = db.session.execute(db.select(Movie).where(Movie.id == movie_id)).scalar()
-        movie_edit.rating = request.form['rating']
-        movie_edit.review = request.form['review']
-        db.session.commit()
-        return redirect(url_for('home'))        
+    rate_movie_form = RateMovieForm()
+    # if request.method == 'POST':
+    #     movie_id=request.form['id']
+    #     movie_edit = db.session.execute(db.select(Movie).where(Movie.id == movie_id)).scalar()
+    #     movie_edit.rating = request.form['rating']
+    #     movie_edit.review = request.form['review']
+    #     db.session.commit()
+    #     return redirect(url_for('home'))        
     movie_id = request.args.get('id')
     movie = db.get_or_404(Movie, movie_id)
-    return render_template('edit.html', movie=movie)
+    # return render_template('edit.html', movie=movie)
+    if rate_movie_form.validate_on_submit():
+        movie.rating = rate_movie_form.rating.data
+        movie.review = rate_movie_form.review.data
+        movie.ranking = rate_movie_form.ranking.data
+        db.session.commit()
+        return redirect(url_for('home'))
+    return render_template('edit.html', form=rate_movie_form, movie=movie)
 
 if __name__ == '__main__':
     app.run(debug=True)
