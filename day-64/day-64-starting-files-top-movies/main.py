@@ -15,6 +15,12 @@ db = SQLAlchemy()
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///movies.db'
 db.init_app(app=app)
 
+TMDB_API_TOKEN = os.getenv('TMDB_API_KEY')
+TMDB_URL = 'https://api.themoviedb.org/3/search/movie'
+headers = {
+    "accept": "application/json",
+    'Authorization': f'Bearer {TMDB_API_TOKEN}'}
+
 class Movie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), unique=True, nullable=False)
@@ -27,15 +33,19 @@ class Movie(db.Model):
 
     def __repr__(self):
         return f'<Movie {self.title}>'
-
-with app.app_context():
-    db.create_all()
-
 class RateMovieForm(FlaskForm):
     rating = FloatField(label='Rating', validators=[DataRequired()])
     review = StringField(label='Review', validators=[DataRequired()])
     ranking = IntegerField(label='Ranking', validators=[DataRequired()])
     submit = SubmitField(label='Done')
+
+class AddMovieForm(FlaskForm):
+    movie_title = StringField(label='Movie Title', validators=[DataRequired()])
+    submit = SubmitField(label='Add Movie')
+
+
+with app.app_context():
+    db.create_all()
 
 @app.route("/")
 def home():
@@ -44,21 +54,24 @@ def home():
 
 @app.route("/add", methods=['GET', 'POST'])
 def add():
-    if request.method == 'POST':
-        new_movie = Movie(
-            title = request.form['title'],
-            year = request.form['year'],
-            description = request.form['description'],
-            rating = request.form['rating'],
-            ranking = request.form['ranking'],
-            review = request.form['review'],
-            img_url = request.form['image']
-        )
-        with app.app_context():
-            db.session.add(new_movie)
-            db.session.commit()
-        return redirect(url_for('home'))
-    return render_template('add.html')
+    # if request.method == 'POST':
+    #     new_movie = Movie(title = request.form['title'],
+    #         year = request.form['year'],
+    #         description = request.form['description'],
+    #         rating = request.form['rating'],
+    #         ranking = request.form['ranking'],
+    #         review = request.form['review'],
+    #         img_url = request.form['image'])
+    #     db.session.add(new_movie)
+    #     db.session.commit()
+        # return redirect(url_for('home'))
+    form = AddMovieForm()
+    if form.validate_on_submit():
+        movie_title = request.form['movie_title']
+        response = requests.get(f'{TMDB_URL}?query={movie_title}', headers=headers).json()
+        data = response['results']
+        return render_template('select.html', options=data)
+    return render_template('add.html', form=form)
 
 @app.route('/edit', methods=['GET','POST'])
 def edit():
@@ -80,6 +93,15 @@ def edit():
         db.session.commit()
         return redirect(url_for('home'))
     return render_template('edit.html', form=rate_movie_form, movie=movie)
+
+@app.route('/delete', methods=['GET','POST'])
+def delete():
+    import ipdb;ipdb.set_trace()
+    movie_id = request.args.get('id')
+    movie = db.get_or_404(Movie, movie_id)
+    db.session.delete(movie)
+    db.session.commit()
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug=True)
