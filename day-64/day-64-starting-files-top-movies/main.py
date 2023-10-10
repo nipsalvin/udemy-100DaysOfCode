@@ -15,7 +15,8 @@ db = SQLAlchemy()
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///movies.db'
 db.init_app(app=app)
 
-TMDB_API_TOKEN = os.getenv('TMDB_API_KEY')
+TMDB_API_KEY = os.getenv('TMDB_API_KEY')
+TMDB_API_TOKEN = os.getenv('TMDB_API_TOKEN')
 TMDB_URL = 'https://api.themoviedb.org/3/search/movie'
 headers = {
     "accept": "application/json",
@@ -39,7 +40,7 @@ class RateMovieForm(FlaskForm):
     ranking = IntegerField(label='Ranking', validators=[DataRequired()])
     submit = SubmitField(label='Done')
 
-class AddMovieForm(FlaskForm):
+class FindMovieForm(FlaskForm):
     movie_title = StringField(label='Movie Title', validators=[DataRequired()])
     submit = SubmitField(label='Add Movie')
 
@@ -65,13 +66,36 @@ def add():
     #     db.session.add(new_movie)
     #     db.session.commit()
         # return redirect(url_for('home'))
-    form = AddMovieForm()
+    form = FindMovieForm()
     if form.validate_on_submit():
+        import ipdb;ipdb.set_trace()
         movie_title = request.form['movie_title']
-        response = requests.get(f'{TMDB_URL}?query={movie_title}', headers=headers).json()
+        # response = requests.get(f'{TMDB_URL}?query={movie_title}', headers=headers).json()
+        response = requests.get(TMDB_URL, params={'api_key': TMDB_API_KEY, 'query':movie_title}).json()
         data = response['results']
         return render_template('select.html', options=data)
     return render_template('add.html', form=form)
+
+@app.route('/find')
+def find_movie():
+    movie_api_id = request.args.get('id')
+    if movie_api_id:
+        import ipdb;ipdb.set_trace()
+        movie_api_url = f'{TMDB_URL}/{movie_api_id}'
+        # response = requests.get(movie_api_url, params={'api_key':TMDB_API_TOKEN, 'language':'en-US'})
+        response = requests.get(movie_api_url, params={'api_key':TMDB_API_KEY, 'language':'en-US'}).json()
+        # response.raise_for_status()
+        # response = requests.get(movie_api_url, headers=headers)
+        data = response
+        new_movie = Movie(
+            title=data['title'],
+            year = data['release_date'].split('-')[0],
+            img_url = data['poster_path'],
+            description=data['overview']
+        )
+        db.session.add(new_movie)
+        db.session.commit()
+
 
 @app.route('/edit', methods=['GET','POST'])
 def edit():
@@ -96,7 +120,6 @@ def edit():
 
 @app.route('/delete', methods=['GET','POST'])
 def delete():
-    import ipdb;ipdb.set_trace()
     movie_id = request.args.get('id')
     movie = db.get_or_404(Movie, movie_id)
     db.session.delete(movie)
