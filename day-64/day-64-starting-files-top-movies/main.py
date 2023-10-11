@@ -17,19 +17,21 @@ db.init_app(app=app)
 
 TMDB_API_KEY = os.getenv('TMDB_API_KEY')
 TMDB_API_TOKEN = os.getenv('TMDB_API_TOKEN')
-TMDB_URL = 'https://api.themoviedb.org/3/search/movie'
+TMDB_URL_BY_NAME = 'https://api.themoviedb.org/3/search/movie' #This is used for searching by name
+TMDB_URL_BY_ID = 'https://api.themoviedb.org/3/movie'
 headers = {
     "accept": "application/json",
     'Authorization': f'Bearer {TMDB_API_TOKEN}'}
+MOVIE_DB_IMAGE_URL = "https://image.tmdb.org/t/p/w500"
 
 class Movie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), unique=True, nullable=False)
     year = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(255), nullable=False)
-    rating = db.Column(db.Float, nullable=False)
-    ranking = db.Column(db.Integer, nullable=False)
-    review = db.Column(db.String(255), nullable=False)
+    rating = db.Column(db.Float, nullable=True)
+    ranking = db.Column(db.Integer, nullable=True)
+    review = db.Column(db.String(255), nullable=True)
     img_url = db.Column(db.String(255), nullable=False)
 
     def __repr__(self):
@@ -68,10 +70,9 @@ def add():
         # return redirect(url_for('home'))
     form = FindMovieForm()
     if form.validate_on_submit():
-        import ipdb;ipdb.set_trace()
         movie_title = request.form['movie_title']
         # response = requests.get(f'{TMDB_URL}?query={movie_title}', headers=headers).json()
-        response = requests.get(TMDB_URL, params={'api_key': TMDB_API_KEY, 'query':movie_title}).json()
+        response = requests.get(TMDB_URL_BY_NAME, params={'api_key': TMDB_API_KEY, 'query':movie_title}).json()
         data = response['results']
         return render_template('select.html', options=data)
     return render_template('add.html', form=form)
@@ -81,20 +82,22 @@ def find_movie():
     movie_api_id = request.args.get('id')
     if movie_api_id:
         import ipdb;ipdb.set_trace()
-        movie_api_url = f'{TMDB_URL}/{movie_api_id}'
-        # response = requests.get(movie_api_url, params={'api_key':TMDB_API_TOKEN, 'language':'en-US'})
-        response = requests.get(movie_api_url, params={'api_key':TMDB_API_KEY, 'language':'en-US'}).json()
-        # response.raise_for_status()
-        # response = requests.get(movie_api_url, headers=headers)
-        data = response
+        movie_api_url = f'{TMDB_URL_BY_ID}/{movie_api_id}'
+        response = requests.get(movie_api_url, params={'api_key':TMDB_API_KEY, 'language':'en-US'})
+        data = response.json()
         new_movie = Movie(
             title=data['title'],
             year = data['release_date'].split('-')[0],
-            img_url = data['poster_path'],
-            description=data['overview']
+            img_url = f"{MOVIE_DB_IMAGE_URL}{data['poster_path']}",
+            description = data['overview'],
+            rating = 10,
+            ranking = 9,
+            review = None
         )
         db.session.add(new_movie)
         db.session.commit()
+
+        #TODO: Edit the DB so that it allows nullable fields
 
 
 @app.route('/edit', methods=['GET','POST'])
