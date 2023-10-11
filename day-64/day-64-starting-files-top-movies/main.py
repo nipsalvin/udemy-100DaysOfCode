@@ -36,6 +36,9 @@ class Movie(db.Model):
 
     def __repr__(self):
         return f'<Movie {self.title}>'
+
+with app.app_context():
+    db.create_all()
 class RateMovieForm(FlaskForm):
     rating = FloatField(label='Rating', validators=[DataRequired()])
     review = StringField(label='Review', validators=[DataRequired()])
@@ -46,9 +49,6 @@ class FindMovieForm(FlaskForm):
     movie_title = StringField(label='Movie Title', validators=[DataRequired()])
     submit = SubmitField(label='Add Movie')
 
-
-with app.app_context():
-    db.create_all()
 
 @app.route("/")
 def home():
@@ -81,7 +81,6 @@ def add():
 def find_movie():
     movie_api_id = request.args.get('id')
     if movie_api_id:
-        import ipdb;ipdb.set_trace()
         movie_api_url = f'{TMDB_URL_BY_ID}/{movie_api_id}'
         response = requests.get(movie_api_url, params={'api_key':TMDB_API_KEY, 'language':'en-US'})
         data = response.json()
@@ -89,15 +88,11 @@ def find_movie():
             title=data['title'],
             year = data['release_date'].split('-')[0],
             img_url = f"{MOVIE_DB_IMAGE_URL}{data['poster_path']}",
-            description = data['overview'],
-            rating = 10,
-            ranking = 9,
-            review = None
+            description = data['overview']
         )
         db.session.add(new_movie)
         db.session.commit()
-
-        #TODO: Edit the DB so that it allows nullable fields
+        return redirect(url_for("edit", id = new_movie.id))
 
 
 @app.route('/edit', methods=['GET','POST'])
