@@ -62,7 +62,6 @@ def edit():
 
 @app.route('/delete', methods=['GET', 'POST'])
 def delete():
-    import ipdb;ipdb.set_trace()
     book_id = request.args.get('id')
     # book_to_delete = db.session.execute(db.select(Book).where(Book.id == book_id)).scalar()
     book_selected = db.get_or_404(Book, book_id)
