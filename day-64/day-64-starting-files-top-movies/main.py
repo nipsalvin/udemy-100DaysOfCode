@@ -55,7 +55,6 @@ def home():
     all_movies = db.session.execute(db.select(Movie).order_by(Movie.rating)).scalars().all()
 
     for i in range(len(all_movies)):
-        import ipdb;ipdb.set_trace()
         all_movies[i].ranking = len(all_movies) - i
         db.session.commit()
 
