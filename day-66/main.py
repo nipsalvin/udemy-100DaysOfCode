@@ -113,8 +113,9 @@ def post_new_cafe():
         seats=request.form.get("seats"),
         coffee_price=request.form.get("coffee_price"),
     )
-    db.session.add(new_cafe)
-    db.session.commit
+    with app.app_context():
+        db.session.add(new_cafe)
+        db.session.commit()
     return jsonify(response = {
         'success':f'Successfully added the {new_cafe}.'
     })
