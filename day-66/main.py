@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
-
+API_KEY = os.getenv('POSTMAN_CAFE_API_KEY')
 ##Connect to Database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cafes.db'
 db = SQLAlchemy()
@@ -137,7 +137,7 @@ def patch_new_price(cafe_id):
 @app.route('/report-closed/<int:cafe_id>', methods=['DELETE'])
 def delete_cafe(cafe_id):
     api_key = request.args.get("api-key")
-    if api_key == "TopSecretAPIKey":
+    if api_key == API_KEY:
         cafe = db.session.get(Cafe, cafe_id)
         if cafe:
             cafe_name = cafe.name
