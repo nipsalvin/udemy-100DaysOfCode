@@ -41,7 +41,6 @@ def home():
 
 @app.route('/register', methods=['GET','POST'])
 def register():
-    exists = None
     if request.method == 'POST':
         email = request.form.get('email')
         user = db.session.execute(db.select(User).where(User.email == email)).scalar()
