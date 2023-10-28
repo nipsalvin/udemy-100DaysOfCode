@@ -10,7 +10,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import relationship
 import os
 # Import your forms from the forms.py
-from forms import CreatePostForm, RegisterForm, LoginForm
+from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
@@ -45,6 +45,8 @@ class User(UserMixin, db.Model):
     #This will act like a List of BlogPost objects attached to each User. 
     #The "author" refers to the author property in the BlogPost class.
     posts = relationship("BlogPost", back_populates="author")
+    #"comment_author" refers to the comment_author property in the Comment class.
+    comments = relationship("Comment", back_populates="comment_author")
 
 class BlogPost(db.Model):
     __tablename__ = "blog_posts"
@@ -54,11 +56,26 @@ class BlogPost(db.Model):
     date = db.Column(db.String(250), nullable=False)
     body = db.Column(db.Text, nullable=False)
     #Create Foreign Key, "users.id" the users refers to the tablename of User.
-    author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    author_id = db.Column(db.Integer, db.ForeignKey("users.id")) #User table has to be created first
     #Create reference to the User object, the "posts" refers to the posts protperty in the User class.
     author = relationship("User", back_populates="posts")
     img_url = db.Column(db.String(250), nullable=False)
- 
+    comments = relationship("Comment", back_populates="parent_post")
+    
+
+# New table for the database
+class Comment(db.Model):
+    __tablename__ = "comments"
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.Text, nullable=False)
+    #Create Foreign Key, "users.id" the users refers to the tablename of User.
+    author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    #Create reference to the User object, the "comments" refers to the comments protperty in the User class.
+    comment_author = relationship("User", back_populates="comments")
+    post_id = db.Column(db.Integer, db.ForeignKey("blog_posts.id"))
+    parent_post = relationship("BlogPost", back_populates="comments")
+    text = db.Column(db.Text, nullable=False)
+
  
 with app.app_context():
     db.create_all()
@@ -137,11 +154,25 @@ def get_all_posts():
 
 
 # TODO: Allow logged-in users to comment on posts
-@app.route("/post/<int:post_id>")
+@app.route("/post/<int:post_id>", methods=['POST', 'GET'])
 def show_post(post_id):
+    form = CommentForm()
     requested_post = db.get_or_404(BlogPost, post_id)
-    return render_template("post.html", post=requested_post, user = current_user)
-
+    if current_user.is_authenticated:
+        if form.validate_on_submit():
+            new_comment = Comment(
+                text = form.comment.data,
+                comment_author=current_user,
+                parent_post=requested_post,
+            )
+            db.session.add(new_comment)
+            db.session.commit()
+        # import ipdb;ipdb.set_trace()    
+        comments = db.session.execute(db.select(Comment).where(BlogPost.id == requested_post.id)).scalars().all()
+        return render_template("post.html", post=requested_post, user = current_user, form = form, comments = comments)
+    else:
+        flash('Please Log in to see the post')
+        return redirect(url_for('login'))
 
 # TODO: Use a decorator so only an admin user can create a new post
 @app.route("/new-post", methods=["GET", "POST"])

@@ -1,3 +1,4 @@
+{% from "bootstrap5/form.html" import render_form %} 
 {% include "header.html" %}
 
 <!-- Page Header-->
@@ -38,18 +39,22 @@
 
         <!-- Comments Area -->
         <!-- TODO: Add a CKEditor for commenting below -->
+        {{render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+        {{ ckeditor.load() }} {{ ckeditor.config(name='text') }} 
         <div class="comment">
           <!-- TODO: Show all the comments on a post -->
           <ul class="commentList">
-            <li>
-              <div class="commenterImage">
-                <img src="../static/assets/img/default-profile.jpg" />
-              </div>
-              <div class="commentText">
-                <p>Some comment</p>
-                <span class="date sub-text">comment author name</span>
-              </div>
-            </li>
+            {% for comment in comments %}
+              <li>
+                  <div class="commenterImage">
+                    <img src="../static/assets/img/default-profile.jpg" />
+                  </div>
+                  <div class="commentText">
+                    <p>{{comment.text|safe}}</p> <!--|safe removes html formating-->
+                    <span class="date sub-text">{{comment.comment_author.name}}</span>
+                  </div>
+              </li>
+            {% endfor %}
           </ul>
         </div>
       </div>
