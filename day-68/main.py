@@ -36,7 +36,8 @@ with app.app_context():
 
 @app.route('/')
 def home():
-    return render_template("index.html")
+    # Passing True or False if the user is authenticated.
+    return render_template("index.html", logged_in = current_user.is_authenticated)
 
 
 @app.route('/register', methods=['GET','POST'])
@@ -66,7 +67,8 @@ def register():
             login_user(new_user)
 
             return render_template("secrets.html", user=new_user)
-    return render_template("register.html")
+    # Passing True or False if the user is authenticated.
+    return render_template("register.html", logged_in = current_user.is_authenticated)
 
 
 @app.route('/login', methods=['POST','GET'])
@@ -82,14 +84,15 @@ def login():
         else:
             flash('Invalid Email or Password')
         return redirect(url_for('login'))
-    return render_template("login.html")
+    # Passing True or False if the user is authenticated.
+    return render_template("login.html", logged_in = current_user.is_authenticated)
 
 
 @app.route('/secrets')
 @login_required
 def secrets():
     user = current_user
-    return render_template("secrets.html", user = user)
+    return render_template("secrets.html", user = user, logged_in = current_user.is_authenticated)
 
 
 @app.route('/logout')
