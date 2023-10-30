@@ -39,15 +39,15 @@
 
         <!-- Comments Area -->
         <!-- TODO: Add a CKEditor for commenting below -->
+        {{ ckeditor.load() }}{{ ckeditor.config(name='text') }} 
         {{render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
-        {{ ckeditor.load() }} {{ ckeditor.config(name='text') }} 
         <div class="comment">
           <!-- TODO: Show all the comments on a post -->
           <ul class="commentList">
             {% for comment in comments %}
               <li>
                   <div class="commenterImage">
-                    <img src="../static/assets/img/default-profile.jpg" />
+                    <img src="{{ comment.comment_author.email | gravatar }}">
                   </div>
                   <div class="commentText">
                     <p>{{comment.text|safe}}</p> <!--|safe removes html formating-->

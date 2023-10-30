@@ -33,6 +33,15 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
 db = SQLAlchemy()
 db.init_app(app)
 
+gravatar = Gravatar(app,
+                    size=100,
+                    rating='g',
+                    default='retro',
+                    force_default=False,
+                    force_lower=False,
+                    use_ssl=False,
+                    base_url=None)
+
 
 # CONFIGURE TABLES
 # TODO: Create a User table for all your registered users. 
@@ -62,7 +71,6 @@ class BlogPost(db.Model):
     img_url = db.Column(db.String(250), nullable=False)
     comments = relationship("Comment", back_populates="parent_post")
     
-
 # New table for the database
 class Comment(db.Model):
     __tablename__ = "comments"
@@ -157,7 +165,7 @@ def get_all_posts():
 @app.route("/post/<int:post_id>", methods=['POST', 'GET'])
 def show_post(post_id):
     form = CommentForm()
-    requested_post = db.get_or_404(BlogPost, post_id)
+    requested_post = db.session.get(BlogPost, post_id)
     if current_user.is_authenticated:
         if form.validate_on_submit():
             new_comment = Comment(
@@ -167,8 +175,7 @@ def show_post(post_id):
             )
             db.session.add(new_comment)
             db.session.commit()
-        # import ipdb;ipdb.set_trace()    
-        comments = db.session.execute(db.select(Comment).where(BlogPost.id == requested_post.id)).scalars().all()
+        comments = db.session.execute(db.select(Comment).where(Comment.post_id == requested_post.id)).scalars().all()
         return render_template("post.html", post=requested_post, user = current_user, form = form, comments = comments)
     else:
         flash('Please Log in to see the post')
