@@ -21,7 +21,19 @@ highest_starting_salary_id = clean_df['Mid-Career Median Salary'].idxmax()
 highest_starting_salary_major =  clean_df['Undergraduate Major'].loc[highest_starting_salary_id]
 earning_with_highest_mid_carrer = clean_df['Mid-Career Median Salary'].max()
 
-lowest_starting_salary_id = clean_df['Starting Median Salary'].idxmin()
+lowest_starting_salary_id = clean_df['Starting Median Sa lary'].idxmin()
 lowest_starting_salary_major = clean_df['Undergraduate Major'].loc[lowest_starting_salary_id]
 people_earning_lowest_starting_salary = clean_df['Mid-Career 90th Percentile Salary'].loc[lowest_starting_salary_id]
 people_expect_to_earn_with_this_major  = clean_df['Mid-Career Median Salary'].loc[lowest_starting_salary_id]
+clean_df['Mid-Career 90th Percentile Salary'] - clean_df['Mid-Career 10th Percentile Salary'] #Doing simple arithmetic with entire columns
+clean_df['Mid-Career 90th Percentile Salary'].subtract(clean_df['Mid-Career 10th Percentile Salary'])# you can also use the .subtract() method. 
+#We can add the computationto the existing dataframe using .insert() method
+spread_col = clean_df['Mid-Career 90th Percentile Salary'].subtract(clean_df['Mid-Career 10th Percentile Salary'])
+clean_df.insert(1,'Spread', spread_col)
+clean_df.head() #Shows the columns with the new column included
+low_risk = clean_df.sort_values('Spread') #sorting by lowest spread (Ascending order)
+low_risk[['Undergraduate Major', 'Spread']].head() #we can pass a list of these two column names to look at the .head() of these two columns exclusively. 
+highest_potential = clean_df.sort_values('Mid-Career 90th Percentile Salary', ascending=False)
+highest_potential[['Undergraduate Major', 'Mid-Career 90th Percentile Salary']].head()#Getting the top 5
+high_risk = clean_df.sort_values('Spread', ascending=False)
+difference_between_earners = high_risk[['Undergraduate Major', 'Spread']].head()
