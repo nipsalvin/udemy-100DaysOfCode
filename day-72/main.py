@@ -1,3 +1,4 @@
+
 import pandas as pd
 
 df=pd.read_csv('salaries_by_college_major.csv')
@@ -37,3 +38,5 @@ highest_potential = clean_df.sort_values('Mid-Career 90th Percentile Salary', as
 highest_potential[['Undergraduate Major', 'Mid-Career 90th Percentile Salary']].head()#Getting the top 5
 high_risk = clean_df.sort_values('Spread', ascending=False)
 difference_between_earners = high_risk[['Undergraduate Major', 'Spread']].head()
+highest_spread = clean_df.sort_values('Mid-Career Median Salary', ascending=False)
+highest_spread[['Undergraduate Major', 'Mid-Career Median Salary']].head()
