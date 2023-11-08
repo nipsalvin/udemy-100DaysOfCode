@@ -40,3 +40,9 @@ high_risk = clean_df.sort_values('Spread', ascending=False)
 difference_between_earners = high_risk[['Undergraduate Major', 'Spread']].head()
 highest_spread = clean_df.sort_values('Mid-Career Median Salary', ascending=False)
 highest_spread[['Undergraduate Major', 'Mid-Career Median Salary']].head()
+#Grouping and Pivoting Data
+pd.options.display.float_format = '{:,.2f}'.format #Formating to 2 decimal places
+clean_df.groupby('Group').count() #Groups the table according to column 'Group'
+clean_df.groupby('Group').mean() #Calculates the mean of entire column `|` in each row `-` ###This is deprecated
+clean_df.groupby('Group')['Mid-Career Median Salary'].mean()
+
