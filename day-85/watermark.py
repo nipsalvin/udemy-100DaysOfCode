@@ -56,13 +56,11 @@ class WatermarkApp:
                 draw = ImageDraw.Draw(self.image)
                 font = ImageFont.load_default()
 
-                text_bbox = draw.textbbox((0, 0), text=watermark_text, font=font)
-                text_width = text_bbox[2] - text_bbox[0]
-                text_height = text_bbox[3] - text_bbox[1]
+                text_width = draw.textlength(watermark_text, font=font)
                 image_width, image_height = self.image.size
 
                 x = (image_width - text_width) // 2
-                y = image_height - text_height - 20
+                y = image_height - font.getsize(watermark_text)[1] - 20
 
                 draw.text((x, y), watermark_text, font=font, fill="white")
 
