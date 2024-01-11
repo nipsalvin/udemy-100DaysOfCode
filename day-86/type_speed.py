@@ -27,6 +27,7 @@ class TypingSpeedTest:
         self.reset_button.grid(row=8, column=1, pady=20, padx=10)
 
     def check_typing_speed(self):
+        '''Checks typed message and typing speed'''
         user_input = self.text_entry.get()
         elapsed_time = time.time() - TIMER
         words_per_minute = int((len(self.sample_text.split()) / elapsed_time) * 60)
@@ -37,6 +38,7 @@ class TypingSpeedTest:
         self.result_label.grid(row=10, column=1, pady=20)
 
     def reset_typing_test(self):
+        '''Resets the time to 0 and clears the screen'''
         self.text_entry.delete(0, 'end')
         self.start_time = time.time()
         self.result_label.config(text='')
