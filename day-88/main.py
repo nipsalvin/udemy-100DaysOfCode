@@ -35,20 +35,28 @@ with app.app_context():
 
 @app.route('/')
 def home():
+    all_cafes = Cafe.query.all()
     return render_template('index.html')
 
-@app.route('/cafes', method=['GET'])
-def get_cafes():
-    result = db.session.execute(db.select(Cafe))
-    all_cafes = result.scalars().all()
+@app.route('/random', methods=['GET'])
+def get_random_cafe():
+    # # Method 1
+    # result = db.session.execute(db.select(Cafe))
+    # all_cafes = result.scalars().all()
+    # Method 2
+    all_cafes = Cafe.query.all()
     random_cafe = random.choice(all_cafes)
     return jsonify(cafe=random_cafe.to_dict())
 
 @app.route('/all')
 def all_cafes():
-    all_cafes = db.session.execute(db.select(Cafe)).scalars().all()
+    # # Method 1
+    # all_cafes = db.session.execute(db.select(Cafe)).scalars().all()
+    # Method 2
+    all_cafes = Cafe.query.all()
     cafes = [cafe.to_dict() for cafe in all_cafes]
-    return jsonify(cafes)
+    return render_template('cafes.html', cafes=cafes)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
