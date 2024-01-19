@@ -38,7 +38,19 @@ def add():
     db.session.commit()
     return redirect(url_for("home"))
 
+@app.route('/update/<int:task_pk>')
+def update(task_pk):
+    task = Task.query.filter_by(id=task_pk).first()
+    task.complete = not task.complete
+    db.session.commit()
+    return redirect(url_for("home"))
 
+@app.route('/delete/<int:task_pk>')
+def delete(task_pk):
+    task = Task.query.filter_by(id=task_pk).first()
+    db.session.delete(task)
+    db.session.commit()
+    return redirect(url_for("home"))
 
 
 if __name__ == '__main__':

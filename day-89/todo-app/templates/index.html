@@ -1,44 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To Do Agenda App</title>
+    <title>To-Do App</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
-
 <body>
-    <div style="margin-top: 50px;" class="ui container">
-        <h1 class="ui center aligned header">To Do Agenda App</h1>
-
-        <form class="ui form" action="/add" method="post">
-            <div class="field">
-                <label>Task Title</label>
-                <input type="text" name="title" placeholder="Enter Task..."><br>
+    <div class="container">
+        <form action="/add" method="post">
+            <div class="form-group">
+                <label for="title"><h3>Task Title</h3></label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="Enter Task Name">
             </div>
-            <button class="ui blue button" type="submit">Add</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-
         <hr>
-
         {% for task in tasks %}
-        <div class="ui segment">
-            <p class="ui big header">{{task.id }} | {{ task.title }}</p>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{task.id }} | {{ task.title }}</h5>
 
-            {% if task.complete == False %}
-            <span class="ui gray label">Not Complete</span>
-            {% else %}
-            <span class="ui green label">Completed</span>
-            {% endif %}
+                    {% if task.complete == False %}
+                        <span class="badge badge-warning">Not Complete</span>
+                    {% else %}
+                        <span class="badge badge-success">Completed</span>
+                    {% endif %}
 
-            <a class="ui blue button" href="/update/{{ task.id }}">Update</a>
-            <a class="ui red button" href="/delete/{{ task.id }}">Delete</a>
-        </div>
+                    <a href="/update/{{ task.id }}" class="btn btn-primary">
+                        {% if task.complete == False %}
+                            Mark as Completed
+                        {% else %}
+                            Mark as Not Completed
+                        {% endif %}
+                    </a>
+                    <a href="/delete/{{ task.id }}" class="btn btn-danger">Delete Task</a>
+                </div>
+            </div>
         {% endfor %}
     </div>
-</body>
 
+    <!-- Include Bootstrap JS and Popper.js (if needed) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
 </html>
