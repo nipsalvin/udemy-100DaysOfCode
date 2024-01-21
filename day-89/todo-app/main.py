@@ -19,10 +19,8 @@ class Task(db.Model):
     complete = db.Column(db.Boolean)
     date = db.Column(db.String(250), nullable=False)
 
-
 with app.app_context():
     db.create_all()
-
 
 @app.route('/')
 def home():
