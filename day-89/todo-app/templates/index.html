@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App ✔ </title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <form action="/add" method="post">
+            <div class="form-group">
+                <label for="title"><h3>Task Title</h3></label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="Enter Task Name">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <hr>
+        {% for task in tasks %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{task.id }} | {{ task.title }}</h5>
+
+                    {% if task.complete == False %}
+                        <span class="badge badge-warning">Not Complete</span>
+                    {% else %}
+                        <span class="badge badge-success">Completed</span>
+                    {% endif %}
+
+                    <a href="/update/{{ task.id }}" class="btn btn-primary">
+                        {% if task.complete == False %}
+                            Mark as Completed
+                        {% else %}
+                            Mark as Not Completed
+                        {% endif %}
+                    </a>
+                    <a href="/delete/{{ task.id }}" class="btn btn-danger">Delete Task</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>
