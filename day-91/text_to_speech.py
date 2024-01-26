@@ -46,7 +46,7 @@ def play_audio(audio_file):
         print(f"Error playing audio: {e}")
 
 if __name__ == "__main__":
-    pdf_path = '/path/to/file.pdf'  # Replace with the path to your PDF file
+    pdf_path = 'sample_text.pdf'  # Replace with the path to your PDF file
     pdf_text = pdf_to_text(pdf_path)
     text_to_speech(pdf_text)
 
