@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Analyzer</title>
+</head>
+<body>
+    <h1>Color Analyzer</h1>
+    <form id="uploadForm" action="/analyze" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*" required>
+        <button type="submit">Analyze</button>
+    </form>
+    <div id="result"></div>
+    
+</body>
+</html>
