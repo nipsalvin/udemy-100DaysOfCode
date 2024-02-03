@@ -4,14 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Color Analyzer</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Additional custom styles */
+        .color-square {
+            width: 50px;
+            height: 50px;
+            display: inline-block;
+            margin: 5px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Color Analyzer</h1>
-    <form id="uploadForm" action="/analyze" method="post" enctype="multipart/form-data">
-        <input type="file" name="image" accept="image/*" required>
-        <button type="submit">Analyze</button>
-    </form>
-    <div id="result"></div>
-    
+    <div class="container">
+        <h1 class="mt-5">
+            <a href="{{url_for('index')}}">Color Analyzer</a>
+        </h1>
+        <form id="uploadForm" action="/analyze" method="post" enctype="multipart/form-data" class="mt-3">
+            <div class="mb-3">
+                <input class="form-control" type="file" name="image" accept="image/*" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Analyze</button>
+        </form>
+        <div id="result" class="mt-5">
+            {% if colors %}
+                <p><b><u>Most used colors in the image that was analyzed are:</u></b></p>
+                <div class="row">
+                    {% for color in colors %}
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="color-square mb-3" style="background-color: rgb({{ color[0][0] }}, {{ color[0][1] }}, {{ color[0][2] }})"></div>
+                            <div class="color-code">#{{ '%02x%02x%02x' % (color[0][0], color[0][1], color[0][2]) }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

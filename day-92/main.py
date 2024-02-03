@@ -9,20 +9,15 @@ app = Flask(__name__)
 def get_top_colors(image_path, num_colors=10):
     # Open the image
     img = Image.open(image_path)
-
     # Convert image to NumPy array
     img_array = np.array(img)
-
     # Flatten the array to a list of RGB values
     pixels = img_array.reshape((-1, 3))
-
     # Get the most common colors
     color_counts = Counter(map(tuple, pixels))
     top_colors = color_counts.most_common(num_colors)
-
     # Convert colors to a serializable format (Python list)
     top_colors_serializable = [([int(channel) for channel in color], count) for color, count in top_colors]
-
     return top_colors_serializable
 
 @app.route('/')
@@ -40,7 +35,8 @@ def analyze():
 
     try:
         top_colors = get_top_colors(image)
-        return {'top_colors': top_colors}
+        top_colors = reversed(top_colors)
+        return render_template('index.html', colors=top_colors)
     except Exception as e:
         return {'error': str(e)}
 
