@@ -5,16 +5,18 @@ import time
 """In the beginning you have to take a SS and get hold of your screen with game. Then you have to take cor when the action must take place""" 
 
 bbox = (319, 677, 407, 733)
-
-# 
 duck_bbox = (273, 611, 323, 676)
+
+# bbox = (1672, 631, 1674, 722)
+# duck_bbox = (1664, 575, 1666, 617)
+
 data = ImageGrab.grab(bbox)
-data.save('duck.png')
+data.save('tree.png')
 print(data.getcolors())
 
 data2 = ImageGrab.grab(duck_bbox)
-data.save('duck.png')
-print(data.getcolors())
+data2.save('duck.png')
+print(data2.getcolors())
 #
 
 duck_colors = [(3250, (255, 255, 255))]
@@ -37,8 +39,14 @@ def duck():
 time.sleep(4)
 while True:
     data = ImageGrab.grab(bbox=bbox)
-    duck_data = ImageGrab.grab(bbox=duck_bbox)
+    duck_data = ImageGrab.grab(bbox=duck_bbox) 
     if data.getcolors() != colors:
+        print(f'Data_colors: {data.getcolors()}')
+        print(f'Colors: {colors}')
+        # time.sleep(4.4) 
         jump()
     if duck_data.getcolors() != duck_colors:
-        duck()
+        print(f'Data_colors: {duck_data.getcolors()}')
+        print(f'Duck Colors: {duck_colors}')
+        # time.sleep(4.4)
+        jump() 
