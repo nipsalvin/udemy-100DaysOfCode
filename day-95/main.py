@@ -10,7 +10,7 @@ ALIEN_SPEED = 3
 screen = Screen()
 screen.title("Space Invaders")
 screen.bgcolor('black')
-screen.screensize(600, 600)
+screen.screensize(300, 300)
 screen.setup(650, 850)
 
 """Ship"""
@@ -24,7 +24,7 @@ ship.shapesize(stretch_wid=1, stretch_len=2)
 
 """Enemies"""
 all_enemies = []
-number_of_enemies = random.randint(5, 15)
+number_of_enemies = random.randint(10, 15)
 for _ in range(number_of_enemies):
     all_enemies.append(Turtle('turtle'))
 for enemy in all_enemies:
@@ -40,13 +40,18 @@ for enemy in all_enemies:
 def move_left():
     x = ship.xcor()
     y = ship.ycor()
-    ship.goto(x - SHIP_MOVEMENT, y)
+    if ship.xcor() > -300:
+        ship.goto(x - SHIP_MOVEMENT, y)
+        # print(ship.xcor(), ship.ycor())
 
 def move_right():
     laser.showturtle()
     x = ship.xcor()
     y = ship.ycor()
-    ship.goto(x + SHIP_MOVEMENT, y)
+    if ship.xcor() < 300:
+        ship.goto(x + SHIP_MOVEMENT, y)
+        # print(ship.xcor(), ship.ycor())
+    
 
 def fire():
     global laser_state
@@ -86,6 +91,14 @@ score_label.write(f'Score: {score}', align='left', font=('Arial', 20, 'normal'))
 with open("high_score.txt") as data:
     high_score = int(data.read())
 
+high_score_label = Turtle()
+high_score_label.speed(0)
+high_score_label.penup()
+high_score_label.color('white')
+high_score_label.setposition(280, 285)
+high_score_label.hideturtle()
+high_score_label.write(f'High Score: {high_score}', align='right', font=('Arial', 20, 'normal'))
+
 """Game loop"""
 while True:
     screen.update()
@@ -93,20 +106,24 @@ while True:
         x = enemy.xcor()
         x += ALIEN_SPEED
         enemy.setx(x)
+
         if enemy.xcor() > 300:
             for e in all_enemies:
                 y = e.ycor()
                 y -= 30
                 e.sety(y)   
             ALIEN_SPEED *= -1
+
         if enemy.xcor() < -300:
             for e in all_enemies:
                 y = e.ycor()
                 y -= 30
                 e.sety(y)
             ALIEN_SPEED *= -1
+
         if laser.distance(enemy) < 20:
             laser.hideturtle()
+            print('pew pew')
             laser_state = 'ready'
             laser.setposition(0, -340)
             x = random.randint(-250, 250)
@@ -119,6 +136,7 @@ while True:
                 high_score = score
                 with open('high_score.txt', mode='w') as data:
                     data.write(f'{high_score}')
+
         if ship.distance(enemy) < 20:
             ship.hideturtle()
             enemy.hideturtle()
@@ -139,8 +157,8 @@ while True:
             game_over_message.hideturtle()
             game_over_message.setposition(0, -50)
             game_over_message.write(f'{message}', align='center', font=('Arial', 15, 'normal'))
-
             break
+
         if enemy.ycor() <= ship.ycor():
             ship.hideturtle()
             enemy.hideturtle()
@@ -161,9 +179,8 @@ while True:
             game_over_message.hideturtle()
             game_over_message.setposition(0, -50)
             game_over_message.write(f'{message}', align='center', font=('Arial', 15, 'normal'))
-            
-
             break
+
     if laser_state == 'fire':
         y = laser.ycor()
         y += LASER_MOVEMENT
