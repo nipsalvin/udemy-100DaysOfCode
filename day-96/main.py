@@ -6,7 +6,6 @@ app = Flask(__name__)
 
 @app.route('/')
 def display_joke():
-    import ipdb;ipdb.set_trace()
     api_key = os.getenv('X-RapidAPI-Key')
     api_host = os.getenv('X-RapidAPI-Host')
 
@@ -21,8 +20,9 @@ def display_joke():
     response = requests.get(url, headers=headers).json()
 
     joke = response.get('value')
+    icon = response.get('icon_url')
 
-    return render_template('index.html', joke=joke)
+    return render_template('index.html', icon=icon, joke=joke)
 
 if __name__ == '__main__':
     app.run(debug=True)
