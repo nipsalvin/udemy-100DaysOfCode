@@ -66,6 +66,9 @@ Bootstrap5(app)
 def home():
     return render_template('index.html')
 
+@app.route('/cart')
+def view_cart():
+    return render_template('cart.html')
 
 
 
