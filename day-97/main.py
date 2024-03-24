@@ -64,16 +64,17 @@ class User(UserMixin, db.Model):
 class Perfume(db.Model):
     __tablename__ = 'perfumes'
     id = db.Column(db.Integer, primary_key=True)
-    scent_code = db.Column(db.String(5), nullable=True, unique=True)
-    scent_name = db.Column(db.String(50))
-    scent_brand = db.Column(db.String(50))
+    scent_code = db.Column(db.String(100), nullable=True)
+    scent_name = db.Column(db.String(100))
+    scent_brand = db.Column(db.String(100))
     scent_gender = db.Column(db.String(10)) 
     grammage = db.Column(db.Integer)
     is_discounted = db.Column(db.Boolean, default=False)
     is_out = db.Column(db.Boolean, default=False)
     image = db.Column(db.String(255), nullable=True)
-    price = db.Column(db.Integer)
-    description = db.Column(db.String(200))
+    original_price = db.Column(db.Integer)
+    current_price = db.Column(db.Integer)
+    description = db.Column(db.String(100))
     likes = db.relationship('Like', backref='perfume', lazy=True)
 
     def __repr__(self):
@@ -204,6 +205,9 @@ def add_product():
             scent_gender=form.scent_gender.data,
             grammage=form.grammage.data,
             is_discounted=form.is_discounted.data,
+            original_price=form.price.data,
+            current_price=form.price.data,
+            description=form.description.data,
             image=image_filename  # Store the image filename in the Perfume object
         )
         # Add the new Perfume object to the database
@@ -211,6 +215,7 @@ def add_product():
         db.session.commit()
         flash(f'{new_perfume.scent_name} added successfully!', 'success')
         return redirect(url_for('home'))
+    import ipdb;ipdb.set_trace()
     return render_template('add_product.html', form=form, current_user=current_user)
 
 @app.route('/product/<int:perfume_id>', methods=['GET','POST'])

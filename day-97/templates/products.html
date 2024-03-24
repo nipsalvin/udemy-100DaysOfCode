@@ -17,10 +17,18 @@
                     {% endif %}
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">{{ product.scent_name }}</h5>
-                        <p class="card-text mb-auto">{{ product.description }}</p>
+                        {{ product.grammage }} mls<br>
+                        For {{ product.scent_gender }}<br>
+                        {{ product.description }}<br>
+                        {% if product.is_discounted %}:
+                            KES {{ product.current_price }}<br>
+                        {% else %}
+                            KES {{ product.original_price }}<br>
+                        {% endif %}
                         <!-- Additional product details (e.g., price, brand) can be displayed here -->
                         <div class="mt-auto">
-                            <a href="#" class="btn btn-primary">View Details</a>
+                            <a href="{{ url_for('view_perfume', perfume_id=product.id) }}" class="btn btn-primary">View Details</a> <hr>
+                            <a href="{{ url_for('view_perfume', perfume_id=product.id) }}" class="btn btn-primary">Add To Cart</a>
                         </div>
                     </div>
                 </div>

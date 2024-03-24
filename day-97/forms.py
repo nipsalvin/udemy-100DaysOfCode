@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, BooleanField
+from wtforms import StringField, SubmitField, PasswordField, BooleanField, IntegerField
 from flask_wtf.file import FileAllowed, FileField
 from wtforms.validators import DataRequired, URL
 from flask_ckeditor import CKEditorField
@@ -27,4 +27,6 @@ class AddProductForm(FlaskForm):
     grammage = StringField(label='Grammage', validators=[DataRequired()])
     is_discounted = BooleanField(label='Is Discounted', default=False)
     image = FileField('Image', validators=[FileAllowed(['jpg', 'png'], 'Images only!')])
-    submin = SubmitField('Submit Product')
+    price = IntegerField(label='Price (KES)', validators=[DataRequired()])
+    description = StringField(label='Description', validators=[DataRequired()])
+    submit = SubmitField('Submit Product!')

@@ -4,27 +4,17 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h1 class="card-title">{{ product.scent_name }}</h1>
-                    <p class="card-text"><strong>Scent Code:</strong> {{ product.scent_code }}</p>
-                    <p class="card-text"><strong>Brand:</strong> {{ product.scent_brand }}</p>
-                    <p class="card-text"><strong>Gender:</strong> {{ product.scent_gender }}</p>
-                    <p class="card-text"><strong>Size:</strong> {{ product.grammage }} mls</p>
-                    <p class="card-text"><strong>In Stock:</strong> {% if product.is_out %} No {% else %} Yes {% endif %}</p>
-                    {% if product.is_discounted %} 
-                        <p class="card-text"><strong>Discounted!</strong></p>
-                    {% endif %}
-                </div>
+            <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="{{ url_for('static', filename='/assets/img/' + product.image) }}" alt="Perfume Image">
+            <div class="card-body">
+                <h5 class="card-title">{{ product.scent_name }}</h5>
+                {{ product.scent_brand }} <br>
+                {{ product.scent_gender }} <br>
+                {{ product.grammage }} mls <br>
+                {% if product.is_out %} Out Of Stock {% else %} Stocked {% endif %} <br>
+                {% if product.is_discounted %} Discounted! {% else %}  {% endif %}
+                <a href="{{ url_for('view_perfume', perfume_id=product.id) }}" class="btn btn-primary">Add To Cart</a>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                {% if product.image %}
-                    <img src="{{ url_for('static', filename='/assets/img/' + product.image) }}" alt="Perfume Image" class="card-img-top">
-                {% else %}
-                    <p class="card-text text-center mt-3">No image available</p>
-                {% endif %}
             </div>
         </div>
     </div>
