@@ -215,7 +215,6 @@ def add_product():
         db.session.commit()
         flash(f'{new_perfume.scent_name} added successfully!', 'success')
         return redirect(url_for('home'))
-    import ipdb;ipdb.set_trace()
     return render_template('add_product.html', form=form, current_user=current_user)
 
 @app.route('/product/<int:perfume_id>', methods=['GET','POST'])
