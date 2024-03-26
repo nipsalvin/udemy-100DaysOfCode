@@ -3,18 +3,23 @@
 
 <div class="container mt-5">
     <div class="row">
+        <!-- Image Column -->
         <div class="col-md-6">
-            <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="{{ url_for('static', filename='/assets/img/' + product.image) }}" alt="Perfume Image">
+            <img class="img-fluid" src="{{ url_for('static', filename='assets/img/' + product.image) }}" alt="Perfume Image" style="max-width: 100%; height: auto;">
+        </div>
+
+        <!-- Details Column -->
+        <div class="col-md-6">
             <div class="card-body">
                 <h5 class="card-title">{{ product.scent_name }}</h5>
-                {{ product.scent_brand }} <br>
+                <p>{{ product.scent_brand }} <br>
                 {{ product.scent_gender }} <br>
                 {{ product.grammage }} mls <br>
-                {% if product.is_out %} Out Of Stock {% else %} Stocked {% endif %} <br>
-                {% if product.is_discounted %} Discounted! {% else %}  {% endif %}
-                <a href="{{ url_for('view_perfume', perfume_id=product.id) }}" class="btn btn-primary">Add To Cart</a>
-            </div>
+                {% if product.is_out %} <span class="text-danger">Out Of Stock</span> {% else %} <span class="text-success">In Stock</span> {% endif %} <br>
+                {% if product.is_discounted %} <span class="badge bg-info text-dark">Discounted!</span> {% endif %}</p>
+                <!-- Add to Cart Button -->
+                <!-- Ensure you have a route and function to handle adding to cart -->
+                <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn btn-primary">Add To Cart</a>
             </div>
         </div>
     </div>

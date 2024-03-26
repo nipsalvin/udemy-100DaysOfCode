@@ -1,5 +1,5 @@
 from datetime import date
-from flask import Flask, abort, render_template, redirect, url_for, flash, request, current_app
+from flask import Flask, abort, render_template, redirect, url_for, flash, request, current_app, session
 from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
 from flask_gravatar import Gravatar
@@ -227,6 +227,36 @@ def get_all_products():
     result = db.session.execute(db.select(Perfume))
     products = result.scalars().all()
     return render_template('products.html', products=products, current_user=current_user)
+
+@app.route('/add_to_cart/<int:product_id>')
+def add_to_cart(product_id):
+    if 'cart' not in session:
+        session['cart'] = []
+
+    cart = session['cart']
+    
+    # Assuming each product is represented as a dictionary in the cart
+    if product_id not in [item['id'] for item in cart]:
+        cart.append({'id': product_id, 'quantity': 1})
+        session['cart'] = cart  # Make sure to reassign the session['cart'] to update it
+        flash('Product added to cart successfully!', 'success')
+    else:
+        flash('Product already in cart', 'info')
+
+    return redirect(url_for('get_all_products'))
+
+@app.route('/cart')
+def show_cart():
+    cart_items = session.get('cart', [])
+    products = []  # This will store product details fetched based on cart item IDs
+    
+    for item in cart_items:
+        product = get_product_by_id(item['id'])  # You need to implement this function
+        if product:
+            product['quantity'] = item['quantity']
+            products.append(product)
+    
+    return render_template('cart.html', products=products)
 
 if __name__ == "__main__":
     app.run(debug=True)

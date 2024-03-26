@@ -1,4 +1,40 @@
-{% include 'header.html' %}
+{% from "bootstrap5/form.html" import render_form %}
+{% include "header.html" %}
 
+<div class="container mt-5">
+    <h2>Your Shopping Cart</h2>
+    {% if cart_items %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>{{ item.product.scent_name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.product.price }}</td>
+                <td>
+                    <a href="{{ url_for('update_cart', item_id=item.id, action='increase') }}" class="btn btn-sm btn-secondary">+</a>
+                    <a href="{{ url_for('update_cart', item_id=item.id, action='decrease') }}" class="btn btn-sm btn-secondary">-</a>
+                    <a href="{{ url_for('remove_from_cart', item_id=item.id) }}" class="btn btn-sm btn-danger">Remove</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="text-end">
+        <h4>Total: ${{ total_price }}</h4>
+        <a href="{{ url_for('checkout') }}" class="btn btn-primary">Proceed to Checkout</a>
+    </div>
+    {% else %}
+    <p>Your cart is empty.</p>
+    {% endif %}
+</div>
 
-{% include 'footer.html' %}
+{% include "footer.html" %}
