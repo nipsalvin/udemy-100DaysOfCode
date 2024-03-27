@@ -29,6 +29,7 @@
                             <!-- Additional product details (e.g., price, brand) can be displayed here -->
                             <div class="mt-auto">
                                 <a href="{{ url_for('view_perfume', perfume_id=product.id) }}" class="btn btn-primary">View Details</a>
+                                <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn btn-primary">Add To Cart</a>
                             </div>
                         </div>
                     </div>

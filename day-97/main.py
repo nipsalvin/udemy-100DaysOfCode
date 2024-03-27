@@ -158,10 +158,6 @@ def logout():
 def home():
     return render_template('index.html')
 
-@app.route('/cart')
-def view_cart():
-    return render_template('cart.html')
-
 @app.route('/like/<int:perfume_id>', methods=["POST"])
 def toggle_like_perfume(perfume_id):
     if current_user.is_authenticated:
@@ -230,6 +226,7 @@ def get_all_products():
 
 @app.route('/add_to_cart/<int:product_id>')
 def add_to_cart(product_id):
+    import ipdb;ipdb.set_trace()
     if 'cart' not in session:
         session['cart'] = []
 
@@ -242,21 +239,22 @@ def add_to_cart(product_id):
         flash('Product added to cart successfully!', 'success')
     else:
         flash('Product already in cart', 'info')
-
     return redirect(url_for('get_all_products'))
 
 @app.route('/cart')
-def show_cart():
+def view_cart():
+    import ipdb;ipdb.set_trace()
     cart_items = session.get('cart', [])
     products = []  # This will store product details fetched based on cart item IDs
     
     for item in cart_items:
-        product = get_product_by_id(item['id'])  # You need to implement this function
+        import ipdb;ipdb.set_trace()
+        product = db.get_or_404(Perfume, item['id'])  # You need to implement this function
         if product:
             product['quantity'] = item['quantity']
             products.append(product)
     
-    return render_template('cart.html', products=products)
+    return render_template('cart.html', cart_items=products)
 
 if __name__ == "__main__":
     app.run(debug=True)
