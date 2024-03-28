@@ -224,14 +224,25 @@ def get_all_products():
     products = result.scalars().all()
     return render_template('products.html', products=products, current_user=current_user)
 
+@app.route('/cart')
+def view_cart():
+    cart_items = session.get('cart', [])
+    products = []  # This will store product details fetched based on cart item IDs
+    for item in cart_items:
+        product = db.get_or_404(Perfume, item['id'])
+        if product:
+            for i in range(item['quantity']):
+                products.append(product)
+    total = 0
+    for p in products:
+        total += p.original_price
+    return render_template('cart.html', cart_items=products, total_price=total)
+
 @app.route('/add_to_cart/<int:product_id>')
 def add_to_cart(product_id):
-    import ipdb;ipdb.set_trace()
     if 'cart' not in session:
         session['cart'] = []
-
     cart = session['cart']
-    
     # Assuming each product is represented as a dictionary in the cart
     if product_id not in [item['id'] for item in cart]:
         cart.append({'id': product_id, 'quantity': 1})
@@ -241,20 +252,20 @@ def add_to_cart(product_id):
         flash('Product already in cart', 'info')
     return redirect(url_for('get_all_products'))
 
-@app.route('/cart')
-def view_cart():
-    import ipdb;ipdb.set_trace()
-    cart_items = session.get('cart', [])
-    products = []  # This will store product details fetched based on cart item IDs
-    
-    for item in cart_items:
-        import ipdb;ipdb.set_trace()
-        product = db.get_or_404(Perfume, item['id'])  # You need to implement this function
-        if product:
-            product['quantity'] = item['quantity']
-            products.append(product)
-    
-    return render_template('cart.html', cart_items=products)
+@app.route('/remove_from_cart/<int:product_id>')
+def remove_from_cart(product_id):
+    if 'cart' not in session:
+        session['cart'] = []
+    cart = session['cart']
+    # Assuming each product is represented as a dictionary in the cart
+    if product_id in [item['id'] for item in cart]:
+        cart.remove({'id': product_id, 'quantity': 1})
+        session['cart'] = cart  # Make sure to reassign the session['cart'] to update it
+        flash('Product removed from cart successfully!', 'success')
+    else:
+        flash('Product not in cart', 'info')
+    return redirect(url_for('get_all_products'))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
