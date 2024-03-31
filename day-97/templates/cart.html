@@ -4,6 +4,14 @@
 <div class="container mt-5">
     <h2>Your Shopping Cart</h2>
     {% if cart_items %}
+        <!-- Adding Flash message here for users trying to register twice -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="flash">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <table class="table">
             <thead>
                 <tr>
@@ -17,13 +25,17 @@
                 {% for item in cart_items %}
                 <tr>
                     <td>
-                        {{ item.scent_name }} <br>
-                        <img src="{{ url_for('static', filename='/assets/img/' + item.image) }}" height="150">
+                        {{ item.product.scent_name }} <br>
+                        <img src="{{ url_for('static', filename='/assets/img/' + item.product.image) }}" height="150">
                     </td>
-                    <td></td>
-                    <td>KES {{ item.original_price }}</td>
                     <td>
-                        <a href="{{ url_for('remove_from_cart', product_id=item.id) }}" class="btn btn-sm btn-danger">Remove</a>
+                        {{item.quantity}}
+                    </td>
+                    <td>KES {{ item.product.original_price }}</td>
+                    <td>
+                        <a href="{{ url_for('update_cart', product_id=item.product.id, action='decrease') }}" class="btn btn-sm btn-secondary">-</a>
+                        <a href="{{ url_for('update_cart', product_id=item.product.id, action='increase') }}" class="btn btn-sm btn-secondary">+</a>
+                        <a href="{{ url_for('remove_from_cart', product_id=item.product.id) }}" class="btn btn-sm btn-danger">Remove</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -33,6 +45,8 @@
                 </tr>
             </tbody>
         </table>
+        <a href="{{ url_for('get_all_products')}}" class="btn btn-primary">Continue Shopping</a> <br><br>
+        <a href="{{ url_for('checkout')}}" class="btn btn-primary">Check Out</a>
     {% else %}
         <p>Your cart is empty.</p>
     {% endif %}
