@@ -158,6 +158,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
+    session['cart'] = []  
     return redirect(url_for('home'))
 
 @app.route('/')
@@ -311,33 +312,40 @@ def create_checkout_session():
     cart_items = session.get('cart', [])
     products = [] 
     total_price = 0
-    for cart_item in cart_items:
-        product_id = cart_item['id']
-        quantity = cart_item['quantity']
-        product = Perfume.query.get_or_404(product_id)
-        if product:
-            total_price += product.original_price * quantity
-            product_data = {
-                'price_data': {
-                    'currency': 'kes',
-                    'product_data': {
-                        'name': product.scent_name,
-                        'images': [url_for('static', filename='assets/img/' + product.image, _external=True)],
-                    },
-                    'unit_amount': int(product.original_price * 100)  # Stripe expects amount in cents
-                },
-                'quantity': quantity,
-            }
-            products.append(product_data)
 
-    checkout_session = stripe.checkout.Session.create(
-        billing_address_collection='auto',
-        line_items=products,
-        mode='payment',
-        success_url=f"http://localhost:5000{url_for('success')}",
-        cancel_url=f"http://localhost:5000{url_for('failure')}"
-    )
-    return redirect(checkout_session.url)
+    # Only allow logged-in users to comment on posts
+    if not current_user.is_authenticated:
+        flash("You need to login or checkout cart.")
+        return redirect(url_for("login"))
+    
+    else:        
+        for cart_item in cart_items:
+            product_id = cart_item['id']
+            quantity = cart_item['quantity']
+            product = Perfume.query.get_or_404(product_id)
+            if product:
+                total_price += product.original_price * quantity
+                product_data = {
+                    'price_data': {
+                        'currency': 'kes',
+                        'product_data': {
+                            'name': product.scent_name,
+                            'images': [url_for('static', filename='assets/img/' + product.image, _external=True)],
+                        },
+                        'unit_amount': int(product.original_price * 100)  # Stripe expects amount in cents
+                    },
+                    'quantity': quantity,
+                }
+                products.append(product_data)
+
+        checkout_session = stripe.checkout.Session.create(
+            billing_address_collection='auto',
+            line_items=products,
+            mode='payment',
+            success_url=f"http://localhost:5000{url_for('success')}",
+            cancel_url=f"http://localhost:5000{url_for('failure')}"
+        )
+        return redirect(checkout_session.url)
         
 @app.route('/success')
 def success():
