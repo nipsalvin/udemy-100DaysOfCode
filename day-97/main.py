@@ -308,9 +308,7 @@ def update_cart(product_id, action):
 
 # Implement the checkout function logic
 @app.route('/create_checkout_session', methods=['GET'])
-    
 def create_checkout_session():
-    import ipdb;ipdb.set_trace()
     cart_items = session.get('cart', [])
     products = [] 
     total_price = 0
