@@ -54,17 +54,13 @@
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" href="{{url_for('get_all_products')}}">View Our Products</a></li>
-                  <li><a class="dropdown-item" href="{{url_for('add_product')}}">Add Product</a></li>
+                  <!-- <li><a class="dropdown-item" href="{{url_for('add_product')}}">Add Product</a></li> -->
                   {% if current_user.is_authenticated and current_user.is_admin %}
                       <li><a class="dropdown-item" href="{{url_for('add_product')}}">Add Product</a></li>
                   {% endif %}
                 </ul>
               </li>
             </ul>
-    
-            <!-- <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-              <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
-            </form> -->
     
             <div class="text-end">
               {% if not current_user.is_authenticated: %}

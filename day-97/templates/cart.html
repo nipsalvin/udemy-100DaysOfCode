@@ -46,7 +46,7 @@
             </tbody>
         </table>
         <a href="{{ url_for('get_all_products')}}" class="btn btn-primary">Continue Shopping</a> <br><br>
-        <a href="{{ url_for('checkout')}}" class="btn btn-primary">Check Out</a>
+        <a href="{{ url_for('create_checkout_session')}}" class="btn btn-primary">Check Out</a>
     {% else %}
         <p>Your cart is empty.</p>
     {% endif %}
