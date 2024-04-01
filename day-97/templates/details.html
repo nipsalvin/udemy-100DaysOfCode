@@ -1,0 +1,28 @@
+{% from "bootstrap5/form.html" import render_form %}
+{% include "header.html" %}
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Image Column -->
+        <div class="col-md-6">
+            <img class="img-fluid" src="{{ url_for('static', filename='assets/img/' + product.image) }}" alt="Perfume Image" style="max-width: 100%; height: auto;">
+        </div>
+
+        <!-- Details Column -->
+        <div class="col-md-6">
+            <div class="card-body">
+                <h5 class="card-title">{{ product.scent_name }}</h5>
+                <p>{{ product.scent_brand }} <br>
+                {{ product.scent_gender }} <br>
+                {{ product.grammage }} mls <br>
+                {% if product.is_out %} <span class="text-danger">Out Of Stock</span> {% else %} <span class="text-success">In Stock</span> {% endif %} <br>
+                {% if product.is_discounted %} <span class="badge bg-info text-dark">Discounted!</span> {% endif %}</p>
+                <!-- Add to Cart Button -->
+                <!-- Ensure you have a route and function to handle adding to cart -->
+                <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn btn-primary">Add To Cart</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "footer.html" %}

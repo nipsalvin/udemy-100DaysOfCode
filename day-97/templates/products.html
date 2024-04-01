@@ -1,0 +1,51 @@
+{% from "bootstrap5/form.html" import render_form %}
+{% include "header.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">All Products</h1>
+    <!-- Adding Flash message here for users trying to register twice -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p class="flash">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for product in products %}
+            <div class="col">
+                <a href="{{ url_for('view_perfume', perfume_id=product.id) }}" class="detailLink detailUrl">
+                    <div class="card h-100">
+                        {% if product.image %}
+                            <img src="{{ url_for('static', filename='/assets/img/' + product.image) }}" class="card-img-top" alt="Product Image">
+                        {% else %}
+                            <div class="text-center py-5">
+                                <p class="h4">No Image Available</p>
+                            </div>
+                        {% endif %}
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ product.scent_name }}</h5>
+                            {{ product.grammage }} mls<br>
+                            For {{ product.scent_gender }}<br>
+                            {{ product.description }}<br>
+                            {% if product.is_discounted %}:
+                                KES {{ product.current_price }}<br>
+                            {% else %}
+                                KES {{ product.original_price }}<br>
+                            {% endif %}
+                            <!-- Additional product details (e.g., price, brand) can be displayed here -->
+                            <div class="mt-auto">
+                                <a href="{{ url_for('view_perfume', perfume_id=product.id) }}" class="btn btn-primary">View Details</a>
+                                <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn btn-primary">Add To Cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% include "footer.html" %}

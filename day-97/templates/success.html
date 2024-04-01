@@ -1,0 +1,16 @@
+{% include "header.html" %}
+    
+    <body>
+        <section>
+            <h2>Payment Successfull!</h2>
+            <p>
+                We appreciate your business! If you have any questions, please email
+                <a href="mailto:example@email.com">example@email.com</a>.
+            </p>
+            <p>
+                To continue shopping, <a href="{{url_for('get_all_products')}}">click here</a>
+            </p>
+        </section>
+    </body>
+
+{% include "footer.html" %}
