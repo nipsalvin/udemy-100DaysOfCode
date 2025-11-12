@@ -32,7 +32,6 @@ will_rain = False
 if condition_code < 700:
     will_rain = True
 
-import ipdb;ipdb.set_trace()
 if will_rain:
     # with smtplib.SMTP('smtp.gmail.com') as connection:
     #     connection.starttls()

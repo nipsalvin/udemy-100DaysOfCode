@@ -350,6 +350,19 @@ def create_checkout_session():
 @app.route('/success')
 def success():
     session['cart'] = []  
+    # Sending email functionality using smtplib
+    MY_EMAIL = os.getenv('MY_EMAIL')
+    MY_EMAIL_2 = os.getenv('MY_EMAIL_2')
+    GMAIL_APP_PASSWORD=os.getenv('GMAIL_APP_PASSWORD')
+    # Send from Email_2 to Email_1
+    with smtplib.SMTP('smtp.gmail.com') as mail_server:
+        mail_server.starttls()
+        mail_server.login(MY_EMAIL, GMAIL_APP_PASSWORD) # type: ignore
+        mail_server.sendmail(
+            from_addr=MY_EMAIL, # type: ignore
+            to_addrs=MY_EMAIL_2, # type: ignore
+            msg='Subject:Order Confirmation\n\nYour order has been successfully processed.'
+        )
     return render_template('success.html')
 
 @app.route('/failure')
@@ -358,6 +371,7 @@ def failure():
     return render_template('error.html')
 
 if __name__ == "__main__":
+    print(' * Running on port 5000')
     app.run(debug=True)
 
 
